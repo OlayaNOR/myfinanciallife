@@ -6,6 +6,7 @@ import com.example.myfinanciallife.user.domain.User;
 import com.example.myfinanciallife.user.domain.UserRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,6 +16,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     public UserRepositoryImpl(JpaUserRepository jpaRepository) {
         this.jpaRepository = jpaRepository;
+    }
+
+    @Override
+    public List<User> findAll() {
+        List<User> entities = jpaRepository.findAll();
+        return entities.stream().map(this::mapToDomain).toList();
     }
 
     @Override

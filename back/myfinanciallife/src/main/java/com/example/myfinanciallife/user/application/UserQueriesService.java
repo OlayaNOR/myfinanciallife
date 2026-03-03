@@ -1,5 +1,7 @@
 package com.example.myfinanciallife.user.application;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,19 @@ public class UserQueriesService {
     public UserQueriesService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public List<UserResponse> getAll() {
+        List<User> users = userRepository.findAll();
+
+        return users.stream()
+                .filter(User::isActive)
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail()
+                ))
+                .toList();
     }
 
     public UserResponse getUserById(Long id) {

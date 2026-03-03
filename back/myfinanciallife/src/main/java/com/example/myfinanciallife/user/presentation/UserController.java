@@ -10,6 +10,8 @@ import com.example.myfinanciallife.user.application.dto.UserResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 @RestController
@@ -27,6 +29,12 @@ public class UserController {
         this.userQueriesService = userQueriesService;
         this.loginUserUseCase = loginUserUseCase;
     }
+
+    @GetMapping("/all")
+    public Iterable<UserResponse> getAll() {
+        return userQueriesService.getAll();
+    }
+    
 
     @PostMapping("/new")
     public UserResponse register(@RequestBody RegisterUserRequest request) {

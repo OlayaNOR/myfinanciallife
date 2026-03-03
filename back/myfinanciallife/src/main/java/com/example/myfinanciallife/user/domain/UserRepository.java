@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.user.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -15,5 +16,7 @@ public interface UserRepository {
     boolean passwordMatches(String password, String confirmation);
 
     boolean isActive(Long id);
+
+    List<User> findAll();
     
 }
