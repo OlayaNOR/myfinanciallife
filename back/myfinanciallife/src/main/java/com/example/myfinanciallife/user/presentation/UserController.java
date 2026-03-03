@@ -5,9 +5,14 @@ import com.example.myfinanciallife.user.application.RegisterUserUseCase;
 import com.example.myfinanciallife.user.application.UserQueriesService;
 import com.example.myfinanciallife.user.application.dto.LoginUserRequest;
 import com.example.myfinanciallife.user.application.dto.RegisterUserRequest;
+import com.example.myfinanciallife.user.application.dto.UpdateUserRequest;
 import com.example.myfinanciallife.user.application.dto.UserResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/users")
@@ -38,6 +43,11 @@ public class UserController {
     @GetMapping("/login")
     public UserResponse login(@RequestBody LoginUserRequest request) {
         return loginUserUseCase.execute(request);
+    }
+
+    @PatchMapping("/{id}")
+    public UserResponse update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
+        return userQueriesService.update(id, request);
     }
     
     
