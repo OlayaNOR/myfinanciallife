@@ -5,6 +5,7 @@ public class RegisterUserRequest {
     private String name;
     private String email;
     private String password;
+    private String confirmation;
 
     public String getName() {
         return name;
@@ -16,6 +17,10 @@ public class RegisterUserRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getConfirmation() {
+        return confirmation;
     }
 
 }

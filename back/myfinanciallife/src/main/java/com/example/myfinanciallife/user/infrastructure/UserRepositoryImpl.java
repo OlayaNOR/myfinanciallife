@@ -39,6 +39,11 @@ public class UserRepositoryImpl implements UserRepository {
         return jpaRepository.existsByEmail(email);
     }
 
+    @Override
+    public boolean passwordMatches(String password, String confirmation) {
+        return confirmation.equals(password);
+    }
+
     private User mapToDomain(User entity) {
         return new User(
                 entity.getId(),
