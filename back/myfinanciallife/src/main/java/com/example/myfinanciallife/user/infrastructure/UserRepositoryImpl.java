@@ -44,6 +44,11 @@ public class UserRepositoryImpl implements UserRepository {
         return confirmation.equals(password);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        jpaRepository.deleteById(id);
+    }
+
     private User mapToDomain(User entity) {
         return new User(
                 entity.getId(),

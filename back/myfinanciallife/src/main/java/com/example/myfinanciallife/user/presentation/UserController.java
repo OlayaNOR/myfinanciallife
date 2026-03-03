@@ -7,11 +7,9 @@ import com.example.myfinanciallife.user.application.dto.LoginUserRequest;
 import com.example.myfinanciallife.user.application.dto.RegisterUserRequest;
 import com.example.myfinanciallife.user.application.dto.UpdateUserRequest;
 import com.example.myfinanciallife.user.application.dto.UserResponse;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -49,6 +47,10 @@ public class UserController {
     public UserResponse update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
         return userQueriesService.update(id, request);
     }
-    
-    
+
+    @DeleteMapping("/{id}")
+    public HttpStatus delete(@PathVariable Long id) {
+        userQueriesService.delete(id);
+        return HttpStatus.OK;
+    }
 }

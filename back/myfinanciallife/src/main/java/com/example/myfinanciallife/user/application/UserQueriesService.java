@@ -37,21 +37,26 @@ public class UserQueriesService {
 
     public UserResponse update(Long id, UpdateUserRequest request) {
 
-    User user = userRepository.findById(id)
-            .orElseThrow(() ->
-                    new ApiException(HttpStatus.NOT_FOUND, "User not found")
-            );
+        User user = userRepository.findById(id)
+                .orElseThrow(() ->
+                        new ApiException(HttpStatus.NOT_FOUND, "User not found")
+                );
 
-    user.setName(request.getName());
-    user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
+        user.setName(request.getName());
+        user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
 
-    User updatedUser = userRepository.save(user);
+        User updatedUser = userRepository.save(user);
 
-    return new UserResponse(
-            updatedUser.getId(),
-            updatedUser.getName(),
-            updatedUser.getEmail()
-    );
-}
+        return new UserResponse(
+                updatedUser.getId(),
+                updatedUser.getName(),
+                updatedUser.getEmail()
+        );
+    }
+    
+    public void delete(Long id) {
+        userRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
+        userRepository.deleteById(id);
+    }
 
 }

@@ -13,5 +13,7 @@ public interface UserRepository {
     boolean existsByEmail(String email);
 
     boolean passwordMatches(String password, String confirmation);
+
+    void deleteById(Long id);
     
 }
