@@ -6,8 +6,8 @@ import com.example.myfinanciallife.user.application.dto.UpdateUserRequest;
 import com.example.myfinanciallife.user.application.dto.UserResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 
@@ -26,9 +26,18 @@ public class UserController {
         return userQueriesService.getAll();
     }
 
-    @GetMapping("/{id}")
-    public UserResponse getMethodName(@PathVariable Long id) {
-        return userQueriesService.getUserById(id);
+    @GetMapping("/me")
+    public UserResponse getCurrentUser(Authentication authentication) {
+
+        String email = authentication.getName();
+
+        UserResponse user = userQueriesService.getUserByEmail(email);
+
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail()
+        );
     }
 
     @PatchMapping("/{id}")
