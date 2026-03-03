@@ -2,9 +2,10 @@ package com.example.myfinanciallife.user.presentation;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.myfinanciallife.security.jwt.JwtService;
 import com.example.myfinanciallife.user.application.LoginUserUseCase;
 import com.example.myfinanciallife.user.application.RegisterUserUseCase;
+import com.example.myfinanciallife.user.application.dto.AuthResponse;
 import com.example.myfinanciallife.user.application.dto.LoginUserRequest;
 import com.example.myfinanciallife.user.application.dto.RegisterUserRequest;
 import com.example.myfinanciallife.user.application.dto.UserResponse;
@@ -19,11 +20,14 @@ public class AuthController {
 
     private final RegisterUserUseCase registerUserUseCase;
     private final LoginUserUseCase loginUserUseCase;
+    private final JwtService jwtService;
 
     public AuthController(RegisterUserUseCase registerUserUseCase,
-                          LoginUserUseCase loginUserUseCase) {
+                          LoginUserUseCase loginUserUseCase,
+                          JwtService jwtService) {
         this.registerUserUseCase = registerUserUseCase;
         this.loginUserUseCase = loginUserUseCase;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
@@ -32,7 +36,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public UserResponse login(@RequestBody LoginUserRequest request) {
-        return loginUserUseCase.execute(request);
+    public AuthResponse login(@RequestBody LoginUserRequest request) {
+        UserResponse userResponse = loginUserUseCase.execute(request);
+        String token = jwtService.generateToken(request.getEmail());
+        return new AuthResponse(token, userResponse.getId(), userResponse.getName(), userResponse.getEmail());
     }
 }
