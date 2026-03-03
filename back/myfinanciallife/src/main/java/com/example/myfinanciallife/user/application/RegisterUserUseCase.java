@@ -42,7 +42,8 @@ public class RegisterUserUseCase {
                 request.getName(),
                 request.getEmail(),
                 encryptedPassword,
-                LocalDate.now()
+                LocalDate.now(),
+                true
         );
 
         User saved = userRepository.save(user);

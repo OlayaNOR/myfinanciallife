@@ -45,8 +45,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteById(Long id) {
-        jpaRepository.deleteById(id);
+    public boolean isActive(Long id) {
+        return jpaRepository.isActive(id);
     }
 
     private User mapToDomain(User entity) {
@@ -55,7 +55,8 @@ public class UserRepositoryImpl implements UserRepository {
                 entity.getName(),
                 entity.getEmail(),
                 entity.getHashedPassword(),
-                entity.getSignUpDate()
+                entity.getSignUpDate(),
+                entity.isActive()
         );
     }
 
@@ -65,7 +66,8 @@ public class UserRepositoryImpl implements UserRepository {
                 user.getName(),
                 user.getEmail(),
                 user.getHashedPassword(),
-                user.getSignUpDate()
+                user.getSignUpDate(),
+                user.isActive()
         );
         return entity;
     }

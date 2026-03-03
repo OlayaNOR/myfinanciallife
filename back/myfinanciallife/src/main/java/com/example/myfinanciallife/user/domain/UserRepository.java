@@ -14,6 +14,6 @@ public interface UserRepository {
 
     boolean passwordMatches(String password, String confirmation);
 
-    void deleteById(Long id);
+    boolean isActive(Long id);
     
 }

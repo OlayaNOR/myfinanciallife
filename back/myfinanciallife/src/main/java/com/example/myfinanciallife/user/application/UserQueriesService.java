@@ -55,8 +55,15 @@ public class UserQueriesService {
     }
     
     public void delete(Long id) {
-        userRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
-        userRepository.deleteById(id);
+        
+        User user = userRepository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
+
+        if (user.isActive() == false) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "User not found"); 
+        }
+        
+        user.setActive(false);
+        userRepository.save(user);
     }
 
 }

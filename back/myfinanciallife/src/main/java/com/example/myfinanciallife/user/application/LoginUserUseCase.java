@@ -26,6 +26,10 @@ public class LoginUserUseCase {
         User user = userRepository.findByEmail(request.getEmail())
             .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found"));
 
+        if(user.isActive() == false) {
+            throw new ApiException(HttpStatus.FORBIDDEN, "User is not active");
+        }
+
         if (!passwordEncoder.matches(request.getPassword(), user.getHashedPassword())) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "Invalid password");
         }

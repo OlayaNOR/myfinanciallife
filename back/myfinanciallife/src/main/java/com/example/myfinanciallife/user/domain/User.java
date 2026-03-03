@@ -22,6 +22,7 @@ public class User {
     private String email;
     private String hashedPassword;
     private LocalDate signUpDate;
+    private boolean isActive;
 
     public User() {
     }
