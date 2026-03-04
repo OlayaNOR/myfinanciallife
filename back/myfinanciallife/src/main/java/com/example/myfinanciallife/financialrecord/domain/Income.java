@@ -16,4 +16,9 @@ public class Income extends FinancialRecord {
     public Income(String description, Double amount, LocalDate date, User user, Category category) {
         super(description, amount, date, user, category);
     }
+
+    @Override
+    public String getType() {
+        return "INCOME";
+    }
 }

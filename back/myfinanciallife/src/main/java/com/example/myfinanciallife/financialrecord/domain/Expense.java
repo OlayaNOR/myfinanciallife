@@ -24,4 +24,9 @@ public class Expense extends FinancialRecord {
 
     }
 
+    @Override
+    public String getType() {
+        return "EXPENSE";
+    }
+
 }

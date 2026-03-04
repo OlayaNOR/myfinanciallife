@@ -29,4 +29,9 @@ public class Debt extends FinancialRecord {
     public Double getInterestRate() {
         return interestRate;
     }
+
+    @Override
+    public String getType() {
+        return "DEBT";
+    }
 }

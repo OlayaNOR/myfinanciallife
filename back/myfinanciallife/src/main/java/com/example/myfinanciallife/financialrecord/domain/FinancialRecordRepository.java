@@ -7,6 +7,7 @@ public interface FinancialRecordRepository {
 
     FinancialRecord save(FinancialRecord record);
 
+    /*
     Optional<FinancialRecord> findById(Long id);
 
     List<FinancialRecord> findByUserId(Long userId);
@@ -16,4 +17,6 @@ public interface FinancialRecordRepository {
     List<FinancialRecord> findByRecordType(Long userId);
 
     List<FinancialRecord> findByDateRecordsBetween(Long userId);
+    */
+    
 }

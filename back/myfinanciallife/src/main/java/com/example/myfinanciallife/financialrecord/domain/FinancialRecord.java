@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import com.example.myfinanciallife.user.domain.User;
 
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -11,13 +13,17 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @Data
-public class FinancialRecord {
+public abstract class FinancialRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +36,6 @@ public class FinancialRecord {
 
     private Double amount;
 
-    @Enumerated(EnumType.STRING)
-    private RecordType type;
-
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,7 +44,7 @@ public class FinancialRecord {
 
     protected FinancialRecord() {}
 
-    protected FinancialRecord(String description, Double amount, LocalDate date, User user, Category category) {
+    public FinancialRecord(String description, Double amount, LocalDate date, User user, Category category) {
         this.description = description;
         this.amount = amount;
         this.date = date;
@@ -49,4 +52,5 @@ public class FinancialRecord {
         this.category = category;
     }
 
+    public abstract String getType();
 }

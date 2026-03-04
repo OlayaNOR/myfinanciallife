@@ -19,8 +19,7 @@ public class Investment extends FinancialRecord {
                       Double amount,
                       LocalDate date,
                       User user,
-                      String investmentType,
-                    Category category, 
+                      Category category, 
                       Double profitRate) {
 
         super(description, amount, date, user, category);
@@ -29,5 +28,10 @@ public class Investment extends FinancialRecord {
 
     public Double getProfitRate() {
         return profitRate;
+    }
+
+    @Override
+    public String getType() {
+        return "INVESTMENT";
     }
 }
