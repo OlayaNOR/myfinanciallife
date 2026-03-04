@@ -40,13 +40,17 @@ public class UserController {
         );
     }
 
-    @PatchMapping("/{id}")
-    public UserResponse update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
+    @PatchMapping("/me")
+    public UserResponse update(Authentication authentication, @RequestBody UpdateUserRequest request) {
+        String email = authentication.getName();
+        Long id = userQueriesService.getUserByEmail(email).getId();
         return userQueriesService.update(id, request);
     }
 
-    @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable Long id) {
+    @DeleteMapping("/me")
+    public HttpStatus delete(Authentication authentication) {
+        String email = authentication.getName();
+        Long id = userQueriesService.getUserByEmail(email).getId();
         userQueriesService.delete(id);
         return HttpStatus.OK;
     }
