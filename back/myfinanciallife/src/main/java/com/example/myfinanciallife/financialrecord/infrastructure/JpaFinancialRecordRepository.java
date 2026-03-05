@@ -50,4 +50,36 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
             @Param("recordType") String recordType,
             @Param("userId") Long userId
     );
+
+    @Query(value = """
+    SELECT COALESCE(SUM(amount),0)
+    FROM financial_record
+    WHERE user_id = :userId
+    AND type = 'INCOME'
+    """, nativeQuery = true)
+    Double getTotalIncome(Long userId);
+
+    @Query(value = """
+    SELECT COALESCE(SUM(amount),0)
+    FROM financial_record
+    WHERE user_id = :userId
+    AND type = 'EXPENSE'
+    """, nativeQuery = true)
+    Double getTotalExpense(Long userId);
+
+    @Query(value = """
+    SELECT COUNT(*)
+    FROM financial_record
+    WHERE user_id = :userId
+    """, nativeQuery = true)
+    Integer getTotalTransactions(Long userId);
+
+    @Query(value = """
+    SELECT category, SUM(amount)
+    FROM financial_record
+    WHERE user_id = :userId
+    AND type = 'EXPENSE'
+    GROUP BY category
+    """, nativeQuery = true)
+    List<Object[]> getExpensesByCategory(Long userId);
 }

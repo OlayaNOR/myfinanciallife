@@ -66,6 +66,26 @@ public class FinancialRecordRepositoryImpl implements FinancialRecordRepository 
         return jpaRepository.findByUserIdAndDateBetweenAndType(userId, startDate, endDate, recordType);
     }
 
+    @Override
+     public Double getTotalIncome(Long userId) {
+        return jpaRepository.getTotalIncome(userId);
+    }
+
+    @Override
+    public Double getTotalExpense(Long userId) {
+        return jpaRepository.getTotalExpense(userId);
+    }
+
+    @Override
+    public Integer getTotalTransactions(Long userId) {
+        return jpaRepository.getTotalTransactions(userId);
+    }
+
+    @Override
+    public List<Object[]> getExpensesByCategory(Long userId) {
+        return jpaRepository.getExpensesByCategory(userId);
+    }
+
     private FinancialRecord mapToDomain(FinancialRecord entity) {
         return entity;
     }

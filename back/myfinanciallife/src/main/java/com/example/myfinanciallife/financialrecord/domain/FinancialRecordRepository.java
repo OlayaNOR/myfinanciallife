@@ -18,5 +18,13 @@ public interface FinancialRecordRepository {
     List<FinancialRecord> findByUserIdAndDateRecordsBetween(Long userId, LocalDate startDate, LocalDate endDate);
 
     List<FinancialRecord> findByUserIdAndDateRecordsBetweenAndType(Long userId, LocalDate startDate, LocalDate endDate, String type);
+
+    public Double getTotalIncome(Long userId);
+        
+    public Double getTotalExpense(Long userId);
+
+    public Integer getTotalTransactions(Long userId);
+
+    public List<Object[]> getExpensesByCategory(Long userId);
     
 }
