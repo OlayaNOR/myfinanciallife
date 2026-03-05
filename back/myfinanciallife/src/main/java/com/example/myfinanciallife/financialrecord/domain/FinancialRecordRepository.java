@@ -26,5 +26,7 @@ public interface FinancialRecordRepository {
     public Integer getTotalTransactions(Long userId);
 
     public List<Object[]> getExpensesByCategory(Long userId);
+
+    public List<Object[]> getMonthlySummary(Long userId);
     
 }

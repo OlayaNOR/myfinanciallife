@@ -82,4 +82,16 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
     GROUP BY category
     """, nativeQuery = true)
     List<Object[]> getExpensesByCategory(Long userId);
+
+    @Query(value = """
+    SELECT 
+    DATE_FORMAT(date, '%Y-%m') as month,
+    SUM(CASE WHEN type='INCOME' THEN amount ELSE 0 END) as income,
+    SUM(CASE WHEN type='EXPENSE' THEN amount ELSE 0 END) as expense
+    FROM financial_record
+    WHERE user_id = :userId
+    GROUP BY month
+    ORDER BY month
+    """, nativeQuery = true)
+    List<Object[]> getMonthlySummary(Long userId);
 }

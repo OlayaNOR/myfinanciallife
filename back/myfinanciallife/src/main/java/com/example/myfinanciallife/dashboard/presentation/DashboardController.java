@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.myfinanciallife.dashboard.application.DashboardResponse;
 import com.example.myfinanciallife.dashboard.application.DashboardService;
 import com.example.myfinanciallife.dashboard.application.ExpensesByCategoryResponse;
+import com.example.myfinanciallife.dashboard.application.MonthlySummaryResponse;
 import com.example.myfinanciallife.user.domain.User;
 import com.example.myfinanciallife.user.domain.UserRepository;
 
@@ -42,5 +43,12 @@ public class DashboardController {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
 
         return dashboardService.getExpensesByCategory(user.getId());
+    }
+
+    @GetMapping("/monthly-summary")
+    public List<MonthlySummaryResponse> getMonthlySummary(Authentication authentication) {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.getMonthlySummary(user.getId());
     }
 }

@@ -86,6 +86,11 @@ public class FinancialRecordRepositoryImpl implements FinancialRecordRepository 
         return jpaRepository.getExpensesByCategory(userId);
     }
 
+    @Override
+    public List<Object[]> getMonthlySummary(Long userId) {
+        return jpaRepository.getMonthlySummary(userId);
+    }
+
     private FinancialRecord mapToDomain(FinancialRecord entity) {
         return entity;
     }

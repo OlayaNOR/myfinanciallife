@@ -39,4 +39,27 @@ public class DashboardService {
                 ))
                 .toList();
     }
+
+    public List<MonthlySummaryResponse> getMonthlySummary(Long userId){
+
+        List<Object[]> results = financialRecordRepository.getMonthlySummary(userId);
+
+        return results.stream()
+            .map(row -> {
+
+                String month = (String) row[0];
+                Double income = ((Number) row[1]).doubleValue();
+                Double expense = ((Number) row[2]).doubleValue();
+
+                Double balance = income - expense;
+
+                return new MonthlySummaryResponse(
+                        month,
+                        income,
+                        expense,
+                        balance
+                );
+            })
+            .toList();
+    }
 }
