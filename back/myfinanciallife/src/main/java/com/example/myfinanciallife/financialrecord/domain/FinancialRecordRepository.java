@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.financialrecord.domain;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface FinancialRecordRepository {
@@ -13,12 +14,9 @@ public interface FinancialRecordRepository {
     FinancialRecord findById(Long id);
 
     void delete(Long recordId, Long userId);
-    /*
-    
-    
-    List<FinancialRecord> findByDateRecordsBetween(Long userId);
-    */
 
-    
+    List<FinancialRecord> findByUserIdAndDateRecordsBetween(Long userId, LocalDate startDate, LocalDate endDate);
+
+    List<FinancialRecord> findByUserIdAndDateRecordsBetweenAndType(Long userId, LocalDate startDate, LocalDate endDate, String type);
     
 }

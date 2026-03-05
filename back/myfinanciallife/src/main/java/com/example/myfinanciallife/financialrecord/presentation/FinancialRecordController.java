@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.financialrecord.presentation;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -74,30 +75,34 @@ public class FinancialRecordController {
     }
 
     @GetMapping("/by-type")
-        public List<FinancialRecordResponse> getByType(
-                @RequestParam String type,
-                Authentication authentication) {
-
+    public List<FinancialRecordResponse> getByType(@RequestParam String type, Authentication authentication) {
         String email = authentication.getName();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<FinancialRecord> records =
-                repository.findByTypeAndUserId(type, user.getId());
+        List<FinancialRecord> records = repository.findByTypeAndUserId(type, user.getId());
 
         UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
         return records.stream()
                 .map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
                 .toList();
-        }
+    }
 
-        @DeleteMapping("/{id}")
-        public void delete(@PathVariable Long id, Authentication authentication) {
-            String email = authentication.getName();
-            User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
-            repository.delete(id, user.getId());
-        }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id, Authentication authentication) {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
+        repository.delete(id, user.getId());
+    }
+
+    @GetMapping("/by-date")
+    public List<FinancialRecordResponse> getByDateRange(@RequestParam String startDate, @RequestParam String endDate, Authentication authentication) {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
+        List<FinancialRecord> records = repository.findByUserIdAndDateRecordsBetween(user.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
+        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
+        return records.stream().map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
+        .toList();
+    }
 
 }

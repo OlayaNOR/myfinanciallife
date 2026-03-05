@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.financialrecord.infrastructure;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,16 @@ public class FinancialRecordRepositoryImpl implements FinancialRecordRepository 
     @Override
     public FinancialRecord findById(Long id) {
         return jpaRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<FinancialRecord> findByUserIdAndDateRecordsBetween(Long userId, LocalDate startDate, LocalDate endDate) {
+        return jpaRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
+    }
+
+    @Override
+    public List<FinancialRecord> findByUserIdAndDateRecordsBetweenAndType(Long userId, LocalDate startDate, LocalDate endDate, String recordType) {
+        return jpaRepository.findByUserIdAndDateBetweenAndType(userId, startDate, endDate, recordType);
     }
 
     private FinancialRecord mapToDomain(FinancialRecord entity) {

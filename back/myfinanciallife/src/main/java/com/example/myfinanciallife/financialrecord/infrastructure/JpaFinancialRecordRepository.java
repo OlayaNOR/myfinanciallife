@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.financialrecord.infrastructure;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,19 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
     public List<FinancialRecord> findByUserId(Long userId);
 
     public void deleteById(Long id, Long userId);
+
+    List<FinancialRecord> findByUserIdAndDateBetween(
+        Long userId,
+        LocalDate startDate,
+        LocalDate endDate
+    );
+
+    List<FinancialRecord> findByUserIdAndDateBetweenAndType(
+        Long userId,
+        LocalDate startDate,
+        LocalDate endDate,
+        String type
+    );
 
     @Query(
         value = """
