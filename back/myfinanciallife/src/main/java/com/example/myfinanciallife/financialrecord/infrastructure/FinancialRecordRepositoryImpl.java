@@ -30,6 +30,11 @@ public class FinancialRecordRepositoryImpl implements FinancialRecordRepository 
         return entities.stream().map(this::mapToDomain).collect(Collectors.toList());
     }
 
+    @Override
+    public List<FinancialRecord> findByTypeAndUserId(String recordType, Long userId) {
+        return jpaRepository.findByTypeAndUserId(recordType, userId);
+    }
+
     private FinancialRecord mapToDomain(FinancialRecord entity) {
         return entity;
     }

@@ -11,7 +11,7 @@ import com.example.myfinanciallife.user.application.dto.UserResponse;
 @Component
 public class FinancialRecordResponseMapper {
 
-    public FinancialRecordResponse toResponse(FinancialRecord record, UserResponse userResponse) {
+    public static FinancialRecordResponse toResponse(FinancialRecord record, UserResponse userResponse) {
 
         return new FinancialRecordResponse(
             record.getId(),

@@ -2,6 +2,7 @@ package com.example.myfinanciallife.financialrecord.presentation;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,8 @@ import com.example.myfinanciallife.financialrecord.presentation.mapper.Financial
 import com.example.myfinanciallife.user.application.dto.UserResponse;
 import com.example.myfinanciallife.user.domain.User;
 import com.example.myfinanciallife.user.domain.UserRepository;
+import com.example.myfinanciallife.user.domain.exception.ApiException;
+
 
 
 @RestController
@@ -47,7 +50,7 @@ public class FinancialRecordController {
         String email = authentication.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
         
         UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
 
@@ -65,9 +68,28 @@ public class FinancialRecordController {
         String email = authentication.getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
 
         return repository.findByUserId(user.getId());
     }
-    
+
+    @GetMapping("/by-type")
+        public List<FinancialRecordResponse> getByType(
+                @RequestParam String type,
+                Authentication authentication) {
+
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<FinancialRecord> records =
+                repository.findByTypeAndUserId(type, user.getId());
+
+        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
+        return records.stream()
+                .map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
+                .toList();
+        }
+
 }
