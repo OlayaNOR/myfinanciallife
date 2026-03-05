@@ -7,10 +7,8 @@ public interface FinancialRecordRepository {
 
     FinancialRecord save(FinancialRecord record);
 
-    /*
-    Optional<FinancialRecord> findById(Long id);
-
     List<FinancialRecord> findByUserId(Long userId);
+    /*
 
     void delete(FinancialRecord record);
     
