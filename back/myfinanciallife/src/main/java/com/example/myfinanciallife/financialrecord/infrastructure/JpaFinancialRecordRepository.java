@@ -20,12 +20,21 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
         LocalDate startDate,
         LocalDate endDate
     );
-
+    @Query(
+        value = """
+            SELECT *
+            FROM financial_record
+            WHERE user_id = :userId
+            AND date BETWEEN :startDate AND :endDate
+            AND type = :type
+        """,
+        nativeQuery = true
+    )
     List<FinancialRecord> findByUserIdAndDateBetweenAndType(
         Long userId,
-        LocalDate startDate,
-        LocalDate endDate,
-        String type
+        @Param("startDate") LocalDate startDate,
+        @Param("endDate") LocalDate endDate,
+        @Param("type") String type
     );
 
     @Query(

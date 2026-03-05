@@ -105,4 +105,17 @@ public class FinancialRecordController {
         .toList();
     }
 
+    @GetMapping("/by-date-n-type")
+    public List<FinancialRecordResponse> getByDateRangeAndType(@RequestParam String startDate, @RequestParam String endDate, Authentication authentication, @RequestParam String recordType) {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
+        List<FinancialRecord> records = repository.findByUserIdAndDateRecordsBetweenAndType(user.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate), recordType);
+        if(records.isEmpty()) {
+            throw new ApiException(HttpStatus.NOT_FOUND, "No records found for the given date range and type.");
+        }
+        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
+        return records.stream().map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
+        .toList();
+    }
+
 }
