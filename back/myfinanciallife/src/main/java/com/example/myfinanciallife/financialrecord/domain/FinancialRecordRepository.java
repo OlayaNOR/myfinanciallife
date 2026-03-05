@@ -9,10 +9,16 @@ public interface FinancialRecordRepository {
     List<FinancialRecord> findByUserId(Long userId);
 
     List<FinancialRecord> findByTypeAndUserId(String recordType, Long userId);
+
+    FinancialRecord findById(Long id);
+
+    void delete(Long recordId, Long userId);
     /*
-    void delete(FinancialRecord record);
+    
     
     List<FinancialRecord> findByDateRecordsBetween(Long userId);
     */
+
+    
     
 }

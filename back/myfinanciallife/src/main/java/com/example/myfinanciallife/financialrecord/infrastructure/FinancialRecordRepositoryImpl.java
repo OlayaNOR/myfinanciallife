@@ -3,10 +3,12 @@ package com.example.myfinanciallife.financialrecord.infrastructure;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecordRepository;
+import com.example.myfinanciallife.user.domain.exception.ApiException;
 
 @Repository
 public class FinancialRecordRepositoryImpl implements FinancialRecordRepository {
@@ -33,6 +35,24 @@ public class FinancialRecordRepositoryImpl implements FinancialRecordRepository 
     @Override
     public List<FinancialRecord> findByTypeAndUserId(String recordType, Long userId) {
         return jpaRepository.findByTypeAndUserId(recordType, userId);
+    }
+
+    @Override
+    public void delete(Long recordId, Long userId) {
+
+        FinancialRecord record = jpaRepository.findById(recordId)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Record not found"));
+
+        if (!record.getUser().getId().equals(userId)) {
+                throw new ApiException(HttpStatus.FORBIDDEN, "You cannot delete this record");
+        }
+
+        jpaRepository.delete(record);
+    }
+
+    @Override
+    public FinancialRecord findById(Long id) {
+        return jpaRepository.findById(id).orElse(null);
     }
 
     private FinancialRecord mapToDomain(FinancialRecord entity) {

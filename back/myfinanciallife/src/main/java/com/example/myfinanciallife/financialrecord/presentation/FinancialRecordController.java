@@ -43,7 +43,7 @@ public class FinancialRecordController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public FinancialRecordResponse create(
         @RequestBody CreateFinancialRecordRequest request, Authentication authentication) {
 
@@ -90,6 +90,14 @@ public class FinancialRecordController {
         return records.stream()
                 .map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
                 .toList();
+        }
+
+        @DeleteMapping("/{id}")
+        public void delete(@PathVariable Long id, Authentication authentication) {
+            String email = authentication.getName();
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
+            repository.delete(id, user.getId());
         }
 
 }

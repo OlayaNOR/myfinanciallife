@@ -12,6 +12,8 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
 
     public List<FinancialRecord> findByUserId(Long userId);
 
+    public void deleteById(Long id, Long userId);
+
     @Query(
         value = """
             SELECT *
