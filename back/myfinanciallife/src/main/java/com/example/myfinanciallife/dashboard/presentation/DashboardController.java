@@ -64,7 +64,7 @@ public class DashboardController {
     }
 
     @GetMapping("/debts")
-    public DebtResponse getDebts(@RequestParam Long debtId, Authentication authentication) {
+    public DebtResponse debtCalculator(@RequestParam Long debtId, Authentication authentication) {
         String email = authentication.getName();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
         return dashboardService.debtsCalculator(debtId, user.getId());

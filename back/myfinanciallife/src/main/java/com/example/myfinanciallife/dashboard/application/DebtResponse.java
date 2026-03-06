@@ -1,15 +1,17 @@
 package com.example.myfinanciallife.dashboard.application;
 
+import java.math.BigDecimal;
+
 public class DebtResponse {
     
     private final String description;
-    private final Double amount;
+    private final BigDecimal amount;
     private Integer paymentPeriod;
-    private final Double monthlyPayment;
-    private final Double totalPayment;
+    private final BigDecimal monthlyPayment;
+    private final BigDecimal totalPayment;
     private final Double interestRate;
 
-    public DebtResponse(String description, Double amount, Integer paymentPeriod, Double monthlyPayment, Double totalPayment, Double interestRate) {
+    public DebtResponse(String description, BigDecimal amount, Integer paymentPeriod, BigDecimal monthlyPayment, BigDecimal totalPayment, Double interestRate) {
         this.description = description;
         this.amount = amount;
         this.paymentPeriod = paymentPeriod;
@@ -22,7 +24,7 @@ public class DebtResponse {
         return description;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
@@ -30,11 +32,11 @@ public class DebtResponse {
         return paymentPeriod;
     }
 
-    public Double getMonthlyPayment() {
+    public BigDecimal getMonthlyPayment() {
         return monthlyPayment;
     }
 
-    public Double getTotalPayment() {
+    public BigDecimal getTotalPayment() {
         return totalPayment;
     }
 

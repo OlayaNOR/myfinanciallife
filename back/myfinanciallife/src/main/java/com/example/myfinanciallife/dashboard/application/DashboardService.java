@@ -1,5 +1,7 @@
 package com.example.myfinanciallife.dashboard.application;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -72,18 +74,38 @@ public class DashboardService {
     public DebtResponse debtsCalculator(Long debtId, Long userId){
 
         Debt debt = (Debt) financialRecordRepository.getDebtById(debtId);
-        double amount = debt.getAmount();
-        double interestRate = debt.getInterestRate() / 100.0;
-        double monthlyRate = (Math.pow(1 + interestRate, 1.0/12)) - 1;
-        double monthlyPayment = amount * (monthlyRate/(1-Math.pow(1+monthlyRate, -debt.getPaymentPeriod())));
-        
+
+        BigDecimal amount = debt.getAmount();
+        double interestRate = debt.getInterestRate();
+
+        int period = debt.getPaymentPeriod();
+
+        double annualRate = interestRate / 100.0;
+
+        // EA -> tasa mensual
+        double monthlyRateDouble = Math.pow(1 + annualRate, 1.0/12) - 1;
+
+        BigDecimal monthlyRate = BigDecimal.valueOf(monthlyRateDouble);
+
+        BigDecimal onePlusRatePowMinusN =
+                BigDecimal.valueOf(Math.pow(1 + monthlyRateDouble, -period));
+
+        BigDecimal denominator = BigDecimal.ONE.subtract(onePlusRatePowMinusN);
+
+        BigDecimal monthlyPayment = amount
+                .multiply(monthlyRate)
+                .divide(denominator, 10, RoundingMode.HALF_UP);
+
+        BigDecimal totalPayment = monthlyPayment
+                .multiply(BigDecimal.valueOf(period));
+
         DebtResponse debtResponse = new DebtResponse(
-            debt.getDescription(),
-            debt.getAmount(),
-            debt.getPaymentPeriod(),
-            monthlyPayment,
-            monthlyPayment * debt.getPaymentPeriod(),
-            debt.getInterestRate()
+                debt.getDescription(),
+                debt.getAmount(),
+                debt.getPaymentPeriod(),
+                monthlyPayment,
+                totalPayment,
+                interestRate
         );
 
         return debtResponse;

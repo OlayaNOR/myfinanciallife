@@ -1,5 +1,7 @@
 package com.example.myfinanciallife.financialrecord.application;
 
+import java.math.BigDecimal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ public class CreateFinancialRecordUseCase {
 
     public FinancialRecord execute(CreateFinancialRecordCommand command) {
 
-        if (command.getAmount() <= 0) {
+        if (command.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new ApiException(HttpStatus.BAD_REQUEST, "Amount must be greater than zero");
         }
 

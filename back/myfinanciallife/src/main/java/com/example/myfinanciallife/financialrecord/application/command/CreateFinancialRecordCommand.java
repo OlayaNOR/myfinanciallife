@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.financialrecord.application.command;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.example.myfinanciallife.financialrecord.domain.Category;
@@ -9,7 +10,7 @@ import com.example.myfinanciallife.user.domain.User;
 public class CreateFinancialRecordCommand {
 
     private final String description;
-    private final Double amount;
+    private final BigDecimal amount;
     private final LocalDate date;
     private final User user;
     private final RecordType type;
@@ -21,7 +22,7 @@ public class CreateFinancialRecordCommand {
 
     public CreateFinancialRecordCommand(
             String description,
-            Double amount,
+            BigDecimal amount,
             LocalDate date,
             User user,
             RecordType type,
@@ -47,7 +48,7 @@ public class CreateFinancialRecordCommand {
         return description;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

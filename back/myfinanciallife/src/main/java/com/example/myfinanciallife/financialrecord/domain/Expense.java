@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.financialrecord.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.example.myfinanciallife.user.domain.User;
@@ -15,7 +16,7 @@ public class Expense extends FinancialRecord {
     protected Expense() {}
 
     public Expense(String description,
-                   Double amount,
+                   BigDecimal amount,
                    LocalDate date,
                    User user,
                    Category category) {

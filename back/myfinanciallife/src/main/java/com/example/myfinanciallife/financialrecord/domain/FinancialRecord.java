@@ -1,5 +1,6 @@
 package com.example.myfinanciallife.financialrecord.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.example.myfinanciallife.user.domain.User;
@@ -34,7 +35,7 @@ public abstract class FinancialRecord {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private LocalDate date;
 
@@ -44,7 +45,7 @@ public abstract class FinancialRecord {
 
     protected FinancialRecord() {}
 
-    public FinancialRecord(String description, Double amount, LocalDate date, User user, Category category) {
+    public FinancialRecord(String description, BigDecimal amount, LocalDate date, User user, Category category) {
         this.description = description;
         this.amount = amount;
         this.date = date;
