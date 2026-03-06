@@ -1,6 +1,7 @@
 package com.example.myfinanciallife.financialrecord.application;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.example.myfinanciallife.user.application.dto.UserResponse;
@@ -11,7 +12,7 @@ public class FinancialRecordResponse {
 
     private Long id;
     private String description;
-    private Double amount;
+    private BigDecimal amount;
     private LocalDate date;
     private UserResponse user;
     private String type;
@@ -20,7 +21,7 @@ public class FinancialRecordResponse {
     public FinancialRecordResponse(
             Long id,
             String description,
-            Double amount,
+            BigDecimal amount,
             LocalDate date,
             UserResponse user,
             String type,
@@ -37,7 +38,7 @@ public class FinancialRecordResponse {
 
     public Long getId() { return id; }
     public String getDescription() { return description; }
-    public Double getAmount() { return amount; }
+    public BigDecimal getAmount() { return amount; }
     public LocalDate getDate() { return date; }
     public String getType() { return type; }
     public String getCategory() { return category; }

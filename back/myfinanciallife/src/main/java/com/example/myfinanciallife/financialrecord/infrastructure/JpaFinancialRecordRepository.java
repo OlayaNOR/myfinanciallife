@@ -110,4 +110,11 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
     WHERE id = :debtId
     """, nativeQuery = true)
     FinancialRecord getDebtById(Long debtId);
+
+    @Query(value = """
+    SELECT *
+    FROM financial_record
+    WHERE id = :investmentId
+    """, nativeQuery = true)
+    FinancialRecord getInvestmentById(Long investmentId);
 }

@@ -12,6 +12,7 @@ import com.example.myfinanciallife.dashboard.application.DashboardResponse;
 import com.example.myfinanciallife.dashboard.application.DashboardService;
 import com.example.myfinanciallife.dashboard.application.DebtResponse;
 import com.example.myfinanciallife.dashboard.application.ExpensesByCategoryResponse;
+import com.example.myfinanciallife.dashboard.application.InvestmentResponse;
 import com.example.myfinanciallife.dashboard.application.MonthlySummaryResponse;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
 import com.example.myfinanciallife.user.domain.User;
@@ -66,8 +67,15 @@ public class DashboardController {
     @GetMapping("/debts")
     public DebtResponse debtCalculator(@RequestParam Long debtId, Authentication authentication) {
         String email = authentication.getName();
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
-        return dashboardService.debtsCalculator(debtId, user.getId());
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.debtsCalculator(debtId);
+    }
+
+    @GetMapping("/investments")
+    public InvestmentResponse investmentCalculator(@RequestParam Long investmentId, Authentication authentication) {
+        String email = authentication.getName();
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.investmentCalculator(investmentId);
     }
     
 }

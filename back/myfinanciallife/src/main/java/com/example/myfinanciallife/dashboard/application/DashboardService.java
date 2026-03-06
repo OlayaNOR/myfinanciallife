@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.myfinanciallife.financialrecord.domain.Debt;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecordRepository;
+import com.example.myfinanciallife.financialrecord.domain.Investment;
+
 
 @Service
 public class DashboardService {
@@ -71,7 +73,7 @@ public class DashboardService {
         return financialRecordRepository.getRecentTransactions(userId);
     }
 
-    public DebtResponse debtsCalculator(Long debtId, Long userId){
+    public DebtResponse debtsCalculator(Long debtId){
 
         Debt debt = (Debt) financialRecordRepository.getDebtById(debtId);
 
@@ -109,5 +111,33 @@ public class DashboardService {
         );
 
         return debtResponse;
+    }
+
+    public InvestmentResponse investmentCalculator(Long investmentId){
+
+        Investment inv = (Investment) financialRecordRepository.getInvestmentById(investmentId);
+
+        BigDecimal amount = inv.getAmount();
+        double profitRate = inv.getProfitRate();
+        int days = inv.getDays();
+
+        double dailyRateDouble = profitRate / 100.0 / 365.0;
+
+        BigDecimal dailyRate = BigDecimal.valueOf(dailyRateDouble);
+
+        BigDecimal totalProfit = amount.multiply(dailyRate).multiply(BigDecimal.valueOf(days));
+
+        BigDecimal totalAmount = amount.add(totalProfit);
+
+        InvestmentResponse response = new InvestmentResponse(
+                inv.getDescription(),
+                amount,
+                days,
+                totalProfit,
+                profitRate,
+                totalAmount
+        );
+
+        return response;
     }
 }

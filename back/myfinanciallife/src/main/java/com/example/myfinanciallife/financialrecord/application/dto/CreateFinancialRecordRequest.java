@@ -1,11 +1,12 @@
 package com.example.myfinanciallife.financialrecord.application.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class CreateFinancialRecordRequest {
 
     private String description;
-    private Double amount;
+    private BigDecimal amount;
     private LocalDate date;
     private String type;
     private String category;
@@ -19,8 +20,8 @@ public class CreateFinancialRecordRequest {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public Double getAmount() { return amount; }
-    public void setAmount(Double amount) { this.amount = amount; }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
 
     public LocalDate getDate() { return date; }
     public void setDate(LocalDate date) { this.date = date; }
