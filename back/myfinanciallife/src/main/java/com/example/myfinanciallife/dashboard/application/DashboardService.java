@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.myfinanciallife.financialrecord.domain.Debt;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecordRepository;
 
@@ -66,5 +67,25 @@ public class DashboardService {
 
     public List<FinancialRecord> getRecentTransactions(Long userId){
         return financialRecordRepository.getRecentTransactions(userId);
+    }
+
+    public DebtResponse debtsCalculator(Long debtId, Long userId){
+
+        Debt debt = (Debt) financialRecordRepository.getDebtById(debtId);
+        double amount = debt.getAmount();
+        double interestRate = debt.getInterestRate() / 100.0;
+        double monthlyRate = (Math.pow(1 + interestRate, 1.0/12)) - 1;
+        double monthlyPayment = amount * (monthlyRate/(1-Math.pow(1+monthlyRate, -debt.getPaymentPeriod())));
+        
+        DebtResponse debtResponse = new DebtResponse(
+            debt.getDescription(),
+            debt.getAmount(),
+            debt.getPaymentPeriod(),
+            monthlyPayment,
+            monthlyPayment * debt.getPaymentPeriod(),
+            debt.getInterestRate()
+        );
+
+        return debtResponse;
     }
 }

@@ -103,4 +103,11 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
     LIMIT 5
     """, nativeQuery = true)
     List<FinancialRecord> getRecentTransactions(Long userId);
+
+    @Query(value = """
+    SELECT *
+    FROM financial_record
+    WHERE id = :debtId
+    """, nativeQuery = true)
+    FinancialRecord getDebtById(Long debtId);
 }

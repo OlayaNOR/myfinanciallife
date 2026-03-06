@@ -30,7 +30,9 @@ public class FinancialRecordMapper {
                         ? Category.valueOf(request.getCategory().toUpperCase())
                         : null,
                 request.getInterestRate(),
-                request.getProfitRate()
+                request.getProfitRate(),
+                request.getDays(),
+                request.getPaymentPeriod()
         );
     }
 }

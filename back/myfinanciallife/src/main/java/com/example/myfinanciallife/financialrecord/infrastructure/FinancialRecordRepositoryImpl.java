@@ -96,6 +96,11 @@ public class FinancialRecordRepositoryImpl implements FinancialRecordRepository 
         return jpaRepository.getRecentTransactions(userId);
     }
 
+    @Override
+    public FinancialRecord getDebtById(Long debtId) {
+        return jpaRepository.getDebtById(debtId);
+    }
+
     private FinancialRecord mapToDomain(FinancialRecord entity) {
         return entity;
     }

@@ -11,6 +11,8 @@ public class CreateFinancialRecordRequest {
     private String category;
     private Double interestRate;
     private Double profitRate;
+    private Integer days;
+    private Integer paymentPeriod;
 
     public CreateFinancialRecordRequest() {}
 
@@ -34,4 +36,10 @@ public class CreateFinancialRecordRequest {
 
     public Double getProfitRate() { return profitRate; }
     public void setProfitRate(Double profitRate) { this.profitRate = profitRate; }
+
+    public Integer getDays() { return days; }
+    public void setDays(Integer days) { this.days = days; }
+
+    public Integer getPaymentPeriod() { return paymentPeriod; }
+    public void setPaymentPeriod(Integer paymentPeriod) { this.paymentPeriod = paymentPeriod; }
 }

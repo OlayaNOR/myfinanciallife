@@ -43,7 +43,8 @@ public class FinancialRecordFactory {
                         command.getDate(),
                         command.getUser(),
                         command.getCategory(),
-                        command.getProfitRate()
+                        command.getProfitRate(),
+                        command.getDays()
                 );
 
             case DEBT:
@@ -53,7 +54,8 @@ public class FinancialRecordFactory {
                         command.getDate(),
                         command.getUser(),
                         command.getCategory(),
-                        command.getInterestRate()
+                        command.getInterestRate(),
+                        command.getPaymentPeriod()
                 );
 
             default:

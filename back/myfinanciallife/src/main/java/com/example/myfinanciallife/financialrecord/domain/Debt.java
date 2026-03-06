@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 public class Debt extends FinancialRecord {
 
     private Double interestRate;
+    private int paymentPeriod; // in months
 
     protected Debt() {}
 
@@ -20,14 +21,20 @@ public class Debt extends FinancialRecord {
                 LocalDate date,
                 User user,
                 Category category,
-                Double interestRate) {
+                Double interestRate,
+                Integer paymentPeriod) {
 
         super(description, amount, date, user, category);
         this.interestRate = interestRate;
+        this.paymentPeriod = paymentPeriod;
     }
 
     public Double getInterestRate() {
         return interestRate;
+    }
+
+    public int getPaymentPeriod() {
+        return paymentPeriod;
     }
 
     @Override

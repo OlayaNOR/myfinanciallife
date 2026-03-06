@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 public class Investment extends FinancialRecord {
 
     private Double profitRate;
+    private Integer days;
 
     protected Investment() {}
 
@@ -20,14 +21,20 @@ public class Investment extends FinancialRecord {
                       LocalDate date,
                       User user,
                       Category category, 
-                      Double profitRate) {
+                      Double profitRate,
+                      int days) {
 
         super(description, amount, date, user, category);
         this.profitRate = profitRate;
+        this.days = days;
     }
 
     public Double getProfitRate() {
         return profitRate;
+    }
+
+    public int getDays() {
+        return days;
     }
 
     @Override

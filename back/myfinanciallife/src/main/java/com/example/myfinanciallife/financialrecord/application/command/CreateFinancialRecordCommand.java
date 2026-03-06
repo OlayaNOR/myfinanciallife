@@ -16,6 +16,8 @@ public class CreateFinancialRecordCommand {
     private final Category category;      // nullable 
     private final Double interestRate;    // nullable
     private final Double profitRate;  // nullable
+    private final Integer days; // for investments, nullable
+    private final Integer paymentPeriod; // for debts, nullable
 
     public CreateFinancialRecordCommand(
             String description,
@@ -25,7 +27,9 @@ public class CreateFinancialRecordCommand {
             RecordType type,
             Category category,
             Double interestRate,
-            Double profitRate
+            Double profitRate,
+            Integer days,
+            Integer paymentPeriod
     ) {
         this.description = description;
         this.amount = amount;
@@ -35,6 +39,8 @@ public class CreateFinancialRecordCommand {
         this.category = category;
         this.interestRate = interestRate;
         this.profitRate = profitRate;
+        this.days = days;
+        this.paymentPeriod = paymentPeriod;
     }
 
     public String getDescription() {
@@ -67,5 +73,13 @@ public class CreateFinancialRecordCommand {
 
     public Double getProfitRate() {
         return profitRate;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public int getPaymentPeriod() {
+        return paymentPeriod;
     }
 }

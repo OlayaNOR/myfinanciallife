@@ -30,5 +30,7 @@ public interface FinancialRecordRepository {
     public List<Object[]> getMonthlySummary(Long userId);
 
     public List<FinancialRecord> getRecentTransactions(Long userId);
+
+    public FinancialRecord getDebtById(Long debtId);
     
 }

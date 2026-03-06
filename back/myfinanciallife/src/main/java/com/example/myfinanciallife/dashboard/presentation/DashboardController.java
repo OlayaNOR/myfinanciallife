@@ -5,15 +5,18 @@ import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.myfinanciallife.dashboard.application.DashboardResponse;
 import com.example.myfinanciallife.dashboard.application.DashboardService;
+import com.example.myfinanciallife.dashboard.application.DebtResponse;
 import com.example.myfinanciallife.dashboard.application.ExpensesByCategoryResponse;
 import com.example.myfinanciallife.dashboard.application.MonthlySummaryResponse;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
 import com.example.myfinanciallife.user.domain.User;
 import com.example.myfinanciallife.user.domain.UserRepository;
+
 
 @RestController
 @RequestMapping("/dashboard")
@@ -59,4 +62,12 @@ public class DashboardController {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
         return dashboardService.getRecentTransactions(user.getId());
     }
+
+    @GetMapping("/debts")
+    public DebtResponse getDebts(@RequestParam Long debtId, Authentication authentication) {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.debtsCalculator(debtId, user.getId());
+    }
+    
 }
