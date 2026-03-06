@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
 import com.example.myfinanciallife.financialrecord.domain.FinancialRecordRepository;
 
 @Service
@@ -61,5 +62,9 @@ public class DashboardService {
                 );
             })
             .toList();
+    }
+
+    public List<FinancialRecord> getRecentTransactions(Long userId){
+        return financialRecordRepository.getRecentTransactions(userId);
     }
 }

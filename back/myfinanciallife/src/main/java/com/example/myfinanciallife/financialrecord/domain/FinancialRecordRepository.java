@@ -28,5 +28,7 @@ public interface FinancialRecordRepository {
     public List<Object[]> getExpensesByCategory(Long userId);
 
     public List<Object[]> getMonthlySummary(Long userId);
+
+    public List<FinancialRecord> getRecentTransactions(Long userId);
     
 }

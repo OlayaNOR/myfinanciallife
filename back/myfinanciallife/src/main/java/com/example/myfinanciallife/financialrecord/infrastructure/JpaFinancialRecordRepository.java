@@ -94,4 +94,13 @@ public interface JpaFinancialRecordRepository extends JpaRepository<FinancialRec
     ORDER BY month
     """, nativeQuery = true)
     List<Object[]> getMonthlySummary(Long userId);
+
+    @Query(value = """
+    SELECT *
+    FROM financial_record
+    WHERE user_id = :userId
+    ORDER BY date DESC
+    LIMIT 5
+    """, nativeQuery = true)
+    List<FinancialRecord> getRecentTransactions(Long userId);
 }
