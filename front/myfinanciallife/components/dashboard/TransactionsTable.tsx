@@ -1,3 +1,5 @@
+import { formatCurrency } from "@/lib/formatCurrency";
+
 interface Props {
   transactions: any[];
 }
@@ -34,7 +36,7 @@ export default function TransactionsTable({ transactions }: Props) {
                 <td className="p-4">{t.description}</td>
                 <td className="p-4">{t.category}</td>
                 <td className="p-4">{t.type}</td>
-                <td className="p-4">${t.amount}</td>
+                <td className="p-4">{formatCurrency(t.amount)}</td>
                 <td className="p-4">{t.date}</td>
 
               </tr>

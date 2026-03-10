@@ -7,6 +7,7 @@ import DashboardFooter from "@/components/dashboard/DashboardFooter";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/services/userService";
 import { getDashboardMetrics, getLastTransactions } from "@/services/dashboardService";
+import IncomeExpenseChart from "@/components/dashboard/IncomeExpenseChart";
 
 export default function DashboardPage() {
 
@@ -48,10 +49,15 @@ export default function DashboardPage() {
       <div className="max-w-6xl mx-auto w-full px-6">
 
         <h1 className="text-3xl font-bold mt-8">
-          Hello {user.name}
+          Hello {user.name}!!
         </h1>
 
         <DashboardCards metrics={metrics}/>
+
+        <IncomeExpenseChart
+          incomes={metrics.totalIncome}
+          expenses={metrics.totalExpense}
+        />
 
         <TransactionsTable transactions={transactions}/>
 
