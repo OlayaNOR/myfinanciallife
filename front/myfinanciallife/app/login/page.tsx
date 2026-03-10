@@ -1,11 +1,31 @@
 "use client";
 
+import { login } from "@/services/authService";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
 
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+
+      const data = await login(email, password);
+
+      // guardar JWT
+      localStorage.setItem("token", data.token);
+
+      // redirigir al dashboard
+      router.push("/dashboard");
+
+    } catch (error) {
+      alert("Invalid email or password");
+    }
+  };
 
   return (
     <main className="flex h-screen items-center justify-center bg-linear-to-b from-black via-zinc-700 to-black">
@@ -34,6 +54,7 @@ export default function LoginPage() {
 
         <button
           className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+          onClick={handleLogin}
         >
           Login
         </button>
