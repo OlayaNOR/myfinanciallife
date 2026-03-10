@@ -1,13 +1,14 @@
-import { title } from "process";
+interface Props {
+  metrics: any;
+}
 
-export default function DashboardCards() {
+export default function DashboardCards({ metrics }: Props) {
 
   const cards = [
-    { title: "My Incomes", value: "$0" },
-    { title: "My Expenses", value: "$0" },
-    { title: "My Investments", value: "$0" },
-    { title: "My Debts", value: "$0" },
-    { title: "Balance", value: "$0" },
+    { title: "My Incomes", value: metrics.totalIncome },
+    { title: "My Expenses", value: metrics.totalExpense },
+    { title: "Balance", value: metrics.balance },
+    { title: "Transactions", value: metrics.totalTransactions },
   ];
 
   return (
@@ -21,9 +22,8 @@ export default function DashboardCards() {
           <h3 className="text-sm text-muted-foreground">
             {card.title}
           </h3>
-
           <p className="text-2xl font-bold mt-2">
-            {card.value}
+            {card.title === "Transactions" ? card.value : `$${card.value}`}
           </p>
         </div>
       ))}

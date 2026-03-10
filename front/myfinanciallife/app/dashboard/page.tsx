@@ -4,12 +4,41 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardCards from "@/components/dashboard/DashboardCards";
 import TransactionsTable from "@/components/dashboard/TransactionsTable";
 import DashboardFooter from "@/components/dashboard/DashboardFooter";
+import { useEffect, useState } from "react";
+import { getCurrentUser } from "@/services/userService";
+import { getDashboardMetrics, getLastTransactions } from "@/services/dashboardService";
 
 export default function DashboardPage() {
 
-  const user = {
-    name: "Nicolas"
-  };
+  const [user, setUser] = useState<any>(null);
+  const [metrics, setMetrics] = useState<any>(null);
+  const [transactions, setTransactions] = useState<any[]>([]);
+
+  useEffect(() => {
+
+    async function loadData() {
+
+      const userData = await getCurrentUser();
+      const dashboardData = await getDashboardMetrics();
+      const transactionsData = await getLastTransactions();
+
+      setUser(userData);
+      setMetrics(dashboardData);
+      setTransactions(transactionsData);
+
+    }
+
+    loadData();
+
+  }, []);
+
+  if (!user || !metrics) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        Loading dashboard...
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen flex flex-col">
@@ -22,9 +51,9 @@ export default function DashboardPage() {
           Hello {user.name}
         </h1>
 
-        <DashboardCards />
+        <DashboardCards metrics={metrics}/>
 
-        <TransactionsTable />
+        <TransactionsTable transactions={transactions}/>
 
       </div>
 

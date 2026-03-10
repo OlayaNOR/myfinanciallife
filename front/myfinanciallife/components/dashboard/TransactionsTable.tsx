@@ -1,10 +1,8 @@
-export default function TransactionsTable() {
+interface Props {
+  transactions: any[];
+}
 
-  const transactions = [
-    { id: 1, description: "Salary", amount: 3000, type: "Income" },
-    { id: 2, description: "Groceries", amount: -120, type: "Expense" },
-    { id: 3, description: "Stock investment", amount: -500, type: "Investment" }
-  ];
+export default function TransactionsTable({ transactions }: Props) {
 
   return (
     <div className="mt-10">
@@ -20,19 +18,27 @@ export default function TransactionsTable() {
           <thead className="border-b">
             <tr>
               <th className="p-4">Description</th>
-              <th className="p-4">Type</th>
+              <th className="p-4">Category</th>
               <th className="p-4">Amount</th>
+              <th className="p-4">Date</th>
             </tr>
           </thead>
 
           <tbody>
+
             {transactions.map((t) => (
+
               <tr key={t.id} className="border-b">
+
                 <td className="p-4">{t.description}</td>
-                <td className="p-4">{t.type}</td>
-                <td className="p-4">{t.amount}</td>
+                <td className="p-4">{t.category}</td>
+                <td className="p-4">${t.amount}</td>
+                <td className="p-4">{t.date}</td>
+
               </tr>
+
             ))}
+
           </tbody>
 
         </table>
