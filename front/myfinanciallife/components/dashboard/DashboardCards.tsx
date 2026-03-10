@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { formatCurrency } from "@/lib/formatCurrency";
 
 export default function DashboardCards({ metrics }: Props) {
 
@@ -50,7 +51,7 @@ export default function DashboardCards({ metrics }: Props) {
 
           </h3>
           <p className="text-2xl font-bold mt-2">
-            {card.title === "Transactions" ? card.value : `$${card.value}`}
+            {card.title === "Transactions" ? card.value : formatCurrency(card.value)}
           </p>
         </div>
       ))}
