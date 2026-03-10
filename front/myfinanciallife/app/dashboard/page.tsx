@@ -6,14 +6,16 @@ import TransactionsTable from "@/components/dashboard/TransactionsTable";
 import DashboardFooter from "@/components/dashboard/DashboardFooter";
 import { useEffect, useState } from "react";
 import { getCurrentUser } from "@/services/userService";
-import { getDashboardMetrics, getLastTransactions } from "@/services/dashboardService";
+import { getDashboardMetrics, getExpensesByCategory, getLastTransactions } from "@/services/dashboardService";
 import IncomeExpenseChart from "@/components/dashboard/IncomeExpenseChart";
+import ExpensesByCategoryChart from "@/components/dashboard/ExpensesByCategoryChart";
 
 export default function DashboardPage() {
 
   const [user, setUser] = useState<any>(null);
   const [metrics, setMetrics] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
+  const [expensesByCategory, setExpensesByCategory] = useState<any[]>([]);
 
   useEffect(() => {
 
@@ -22,7 +24,9 @@ export default function DashboardPage() {
       const userData = await getCurrentUser();
       const dashboardData = await getDashboardMetrics();
       const transactionsData = await getLastTransactions();
+      const categoryData = await getExpensesByCategory();
 
+      setExpensesByCategory(categoryData);
       setUser(userData);
       setMetrics(dashboardData);
       setTransactions(transactionsData);
@@ -57,6 +61,10 @@ export default function DashboardPage() {
         <IncomeExpenseChart
           incomes={metrics.totalIncome}
           expenses={metrics.totalExpense}
+        />
+        
+        <ExpensesByCategoryChart
+          data={expensesByCategory}
         />
 
         <TransactionsTable transactions={transactions}/>

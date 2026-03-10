@@ -1,9 +1,16 @@
 "use client";
 
 import { User, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import ThemeToggle from "@/components/ui/theme-toggle";
 
 export default function DashboardHeader() {
+
+  const router = useRouter();
+
+  const backToLogin = async () => {
+        router.push("/login");
+    };
 
   return (
     <header className="flex justify-between items-center p-6 border-b">
@@ -23,7 +30,7 @@ export default function DashboardHeader() {
           <span>Profile</span>
         </div>
 
-        <button className="flex items-center gap-2 text-red-500 hover:text-red-400 cursor-pointer">
+        <button onClick={backToLogin} className="flex items-center gap-2 text-red-500 hover:text-red-400 cursor-pointer">
           <LogOut size={18} />
           Logout
         </button>

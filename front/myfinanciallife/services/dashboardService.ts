@@ -7,3 +7,7 @@ export async function getDashboardMetrics() {
 export async function getLastTransactions() {
   return apiClient("/dashboard/recent-transactions");
 }
+
+export async function getExpensesByCategory() {
+  return apiClient("/dashboard/expenses-by-category");
+}
