@@ -2,6 +2,13 @@ interface Props {
   metrics: any;
 }
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 export default function DashboardCards({ metrics }: Props) {
 
   const cards = [
@@ -19,8 +26,28 @@ export default function DashboardCards({ metrics }: Props) {
           key={index}
           className="p-6 rounded-xl border bg-card shadow-sm"
         >
-          <h3 className="text-sm text-muted-foreground">
+          <h3 className="text-sm text-muted-foreground flex items-center gap-2">
+
             {card.title}
+
+            {card.title === "Balance" && (
+              <TooltipProvider>
+                <Tooltip>
+
+                  <TooltipTrigger asChild>
+                    <button className="text-xs border rounded-full w-5 h-5 flex items-center justify-center">
+                      ?
+                    </button>
+                  </TooltipTrigger>
+
+                  <TooltipContent>
+                    Balance = Incomes - Expenses
+                  </TooltipContent>
+
+                </Tooltip>
+              </TooltipProvider>
+            )}
+
           </h3>
           <p className="text-2xl font-bold mt-2">
             {card.title === "Transactions" ? card.value : `$${card.value}`}
