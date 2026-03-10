@@ -19,7 +19,8 @@ export default function TransactionsTable({ transactions }: Props) {
             <tr>
               <th className="p-4">Description</th>
               <th className="p-4">Category</th>
-              <th className="p-4">Amount</th>
+              <th className="p-4">Type</th>
+              <th className="p-4">Amount</th> 
               <th className="p-4">Date</th>
             </tr>
           </thead>
@@ -32,6 +33,7 @@ export default function TransactionsTable({ transactions }: Props) {
 
                 <td className="p-4">{t.description}</td>
                 <td className="p-4">{t.category}</td>
+                <td className="p-4">{t.type}</td>
                 <td className="p-4">${t.amount}</td>
                 <td className="p-4">{t.date}</td>
 
