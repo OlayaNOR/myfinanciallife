@@ -32,6 +32,7 @@ export default function ProfileInfoPage() {
         <div>
           <p className="font-semibold">{user.name}</p>
           <p className="text-sm text-muted-foreground">{user.email}</p>
+          <p className="text-sm text-muted-foreground">Member sice: {user.signDate}</p>
         </div>
 
       </div>
