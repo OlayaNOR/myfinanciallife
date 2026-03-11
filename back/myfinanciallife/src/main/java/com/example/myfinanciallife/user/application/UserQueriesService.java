@@ -60,7 +60,10 @@ public class UserQueriesService {
                 );
 
         user.setName(request.getName());
-        user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
+
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+                user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
+        }
 
         User updatedUser = userRepository.save(user);
 

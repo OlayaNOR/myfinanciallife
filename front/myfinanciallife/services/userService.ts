@@ -5,3 +5,10 @@ export async function getCurrentUser() {
     method: "GET",
   });
 }
+
+export async function updateUserInfo(data: any) {
+  return apiClient("/users/me", {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
+}
