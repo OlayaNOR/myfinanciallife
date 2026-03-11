@@ -12,3 +12,9 @@ export async function updateUserInfo(data: any) {
     body: JSON.stringify(data),
   });
 }
+
+export async function deleteAccount() {
+  return apiClient("/users/me", {
+    method: "DELETE",
+  });
+}

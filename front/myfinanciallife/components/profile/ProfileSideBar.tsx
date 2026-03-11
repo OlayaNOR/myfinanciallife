@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { User, Pencil, Trash2 } from "lucide-react";
+import { ButtonHoldAndRelease } from "@/components/ui/hold-and-release-button"
+import { DialogClose } from "@/components/ui/dialog"
 
 import {
   Dialog,
@@ -12,6 +14,20 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { deleteAccount } from "@/services/userService";
+import { Button } from "../ui/button";
+
+async function handleDeleteAccount() {
+  try {
+    await deleteAccount()
+
+    localStorage.removeItem("token")
+    window.location.href = "/"
+
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export default function ProfileSidebar() {
 
@@ -61,13 +77,20 @@ export default function ProfileSidebar() {
 
             <DialogFooter>
 
-              <button className="px-4 py-2 border rounded-md">
-                Cancel
-              </button>
+              <DialogClose asChild>
+                <Button
+                  variant="outline"
+                  className="h-10 min-w-40"
+                >
+                  Cancel
+                </Button>
+              </DialogClose>
 
-              <button className="px-4 py-2 bg-red-500 text-white rounded-md">
-                Delete
-              </button>
+              <ButtonHoldAndRelease
+                holdDuration={3000}
+                className="min-w-40 cursor-pointer"
+                onClick={handleDeleteAccount}
+              />
 
             </DialogFooter>
 
