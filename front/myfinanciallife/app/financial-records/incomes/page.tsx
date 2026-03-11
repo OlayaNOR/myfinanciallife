@@ -3,7 +3,7 @@
 import RecordForm from "@/components/financial-records/record-form"
 import RecordsTable from "@/components/financial-records/records-table"
 import { getIncomes } from "@/services/financialRecordsService"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 export default function IncomesPage() {
@@ -15,7 +15,9 @@ export default function IncomesPage() {
     setTransactions(data)
   }
 
-  loadData();
+  useEffect(() => {
+    loadData()
+  }, [])
   return (
     <div className="space-y-6">
 
