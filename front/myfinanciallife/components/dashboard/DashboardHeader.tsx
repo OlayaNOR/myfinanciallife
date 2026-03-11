@@ -13,6 +13,10 @@ export default function DashboardHeader() {
         router.push("/login");
     };
 
+  const goToProfile = async () => {
+        router.push("/profile/info");
+    };
+
   return (
     <header className="flex justify-between items-center p-6 border-b">
 
@@ -48,12 +52,12 @@ export default function DashboardHeader() {
 
         <ThemeToggle />
 
-        <div className="flex items-center gap-2 cursor-pointer">
+        <div onClick={goToProfile} className="flex items-center gap-2 cursor-pointer">
           <User size={20}/>
           <span>Profile</span>
         </div>
 
-        <button className="flex items-center gap-2 text-red-500">
+        <button  onClick={backToLogin} className="flex items-center gap-2 text-red-500 cursor-pointer">
           <LogOut size={18}/>
           Logout
         </button>

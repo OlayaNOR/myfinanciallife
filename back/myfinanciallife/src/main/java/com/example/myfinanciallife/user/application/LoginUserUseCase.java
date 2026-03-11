@@ -34,7 +34,7 @@ public class LoginUserUseCase {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "Invalid password");
         }
 
-        return new UserResponse(user.getId(), user.getName(), user.getEmail());
+        return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getSignUpDate());
     }
 
 }

@@ -53,7 +53,7 @@ public class FinancialRecordController {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
         
-        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
+        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getSignUpDate());
 
         CreateFinancialRecordCommand command =
                 FinancialRecordMapper.toCommand(request, user);
@@ -82,7 +82,7 @@ public class FinancialRecordController {
 
         List<FinancialRecord> records = repository.findByTypeAndUserId(type, user.getId());
 
-        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
+        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getSignUpDate());
         return records.stream()
                 .map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
                 .toList();
@@ -100,7 +100,7 @@ public class FinancialRecordController {
         String email = authentication.getName();
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
         List<FinancialRecord> records = repository.findByUserIdAndDateRecordsBetween(user.getId(), LocalDate.parse(startDate), LocalDate.parse(endDate));
-        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
+        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getSignUpDate());
         return records.stream().map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
         .toList();
     }
@@ -113,7 +113,7 @@ public class FinancialRecordController {
         if(records.isEmpty()) {
             throw new ApiException(HttpStatus.NOT_FOUND, "No records found for the given date range and type.");
         }
-        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail());
+        UserResponse userResponse = new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getSignUpDate());
         return records.stream().map(record -> FinancialRecordResponseMapper.toResponse(record, userResponse))
         .toList();
     }

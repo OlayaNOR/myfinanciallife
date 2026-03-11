@@ -51,7 +51,8 @@ public class RegisterUserUseCase {
         return new UserResponse(
                 saved.getId(),
                 saved.getName(),
-                saved.getEmail()
+                saved.getEmail(),
+                saved.getSignUpDate()
         );
     }
 }

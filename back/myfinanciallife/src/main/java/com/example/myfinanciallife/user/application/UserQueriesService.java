@@ -33,7 +33,8 @@ public class UserQueriesService {
                 .map(user -> new UserResponse(
                         user.getId(),
                         user.getName(),
-                        user.getEmail()
+                        user.getEmail(),
+                        user.getSignUpDate()
                 ))
                 .toList();
     }
@@ -46,7 +47,8 @@ public class UserQueriesService {
         return new UserResponse(
                 user.getId(),
                 user.getName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getSignUpDate()
         );
     }
 
@@ -65,7 +67,8 @@ public class UserQueriesService {
         return new UserResponse(
                 updatedUser.getId(),
                 updatedUser.getName(),
-                updatedUser.getEmail()
+                updatedUser.getEmail(),
+                updatedUser.getSignUpDate()
         );
     }
     
@@ -87,7 +90,8 @@ public class UserQueriesService {
         return new UserResponse(
                 user.getId(),
                 user.getName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getSignUpDate()
         );
     }
 
