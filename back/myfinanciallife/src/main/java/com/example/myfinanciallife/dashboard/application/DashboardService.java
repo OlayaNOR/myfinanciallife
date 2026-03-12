@@ -1,0 +1,161 @@
+package com.example.myfinanciallife.dashboard.application;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.myfinanciallife.financialrecord.domain.Debt;
+import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
+import com.example.myfinanciallife.financialrecord.domain.FinancialRecordRepository;
+import com.example.myfinanciallife.financialrecord.domain.Investment;
+
+
+@Service
+public class DashboardService {
+
+    private final FinancialRecordRepository financialRecordRepository;
+
+    public DashboardService(FinancialRecordRepository financialRecordRepository) {
+        this.financialRecordRepository = financialRecordRepository;
+    }
+
+    public DashboardResponse getDashboard(Long userId){
+
+        Double income = financialRecordRepository.getTotalIncome(userId);
+        Double expense = financialRecordRepository.getTotalExpense(userId);
+        Integer transactions = financialRecordRepository.getTotalTransactions(userId);
+
+        return new DashboardResponse(
+                income,
+                expense,
+                transactions
+        );
+    }
+
+    public List<ExpensesByCategoryResponse> getExpensesByCategory(Long userId){
+
+        List<Object[]> results = financialRecordRepository.getExpensesByCategory(userId);
+
+        return results.stream()
+                .map(row -> new ExpensesByCategoryResponse(
+                        (String) row[0],
+                        ((Number) row[1]).doubleValue()
+                ))
+                .toList();
+    }
+
+    public List<MonthlySummaryResponse> getMonthlySummary(Long userId){
+
+        List<Object[]> results = financialRecordRepository.getMonthlySummary(userId);
+
+        return results.stream()
+            .map(row -> {
+
+                String month = (String) row[0];
+                Double income = ((Number) row[1]).doubleValue();
+                Double expense = ((Number) row[2]).doubleValue();
+
+                Double balance = income - expense;
+
+                return new MonthlySummaryResponse(
+                        month,
+                        income,
+                        expense,
+                        balance
+                );
+            })
+            .toList();
+    }
+
+    public List<FinancialRecord> getRecentTransactions(Long userId){
+        return financialRecordRepository.getRecentTransactions(userId);
+    }
+
+    public DebtResponse debtsCalculator(Long debtId){
+
+        Debt debt = (Debt) financialRecordRepository.getDebtById(debtId);
+
+        BigDecimal amount = debt.getAmount();
+        double interestRate = debt.getInterestRate();
+        int period = debt.getPaymentPeriod();
+
+        if (interestRate == 0) {
+
+                BigDecimal monthlyPayment = amount.divide(
+                        BigDecimal.valueOf(period),
+                        10,
+                        RoundingMode.HALF_UP
+                );
+
+                BigDecimal totalPayment = monthlyPayment.multiply(
+                        BigDecimal.valueOf(period)
+                );
+
+                return new DebtResponse(
+                        debt.getDescription(),
+                        amount,
+                        period,
+                        monthlyPayment,
+                        totalPayment,
+                        interestRate
+                );
+        }
+
+        double annualRate = interestRate / 100.0;
+
+        double monthlyRateDouble = Math.pow(1 + annualRate, 1.0/12) - 1;
+
+        BigDecimal monthlyRate = BigDecimal.valueOf(monthlyRateDouble);
+
+        BigDecimal onePlusRatePowMinusN =
+                BigDecimal.valueOf(Math.pow(1 + monthlyRateDouble, -period));
+
+        BigDecimal denominator = BigDecimal.ONE.subtract(onePlusRatePowMinusN);
+
+        BigDecimal monthlyPayment = amount
+                .multiply(monthlyRate)
+                .divide(denominator, 10, RoundingMode.HALF_UP);
+
+        BigDecimal totalPayment = monthlyPayment
+                .multiply(BigDecimal.valueOf(period));
+
+        return new DebtResponse(
+                debt.getDescription(),
+                amount,
+                period,
+                monthlyPayment,
+                totalPayment,
+                interestRate
+        );
+        }
+
+    public InvestmentResponse investmentCalculator(Long investmentId){
+
+        Investment inv = (Investment) financialRecordRepository.getInvestmentById(investmentId);
+
+        BigDecimal amount = inv.getAmount();
+        double profitRate = inv.getProfitRate();
+        int days = inv.getDays();
+
+        double dailyRateDouble = profitRate / 100.0 / 365.0;
+
+        BigDecimal dailyRate = BigDecimal.valueOf(dailyRateDouble);
+
+        BigDecimal totalProfit = amount.multiply(dailyRate).multiply(BigDecimal.valueOf(days));
+
+        BigDecimal totalAmount = amount.add(totalProfit);
+
+        InvestmentResponse response = new InvestmentResponse(
+                inv.getDescription(),
+                amount,
+                days,
+                totalProfit,
+                profitRate,
+                totalAmount
+        );
+
+        return response;
+    }
+}

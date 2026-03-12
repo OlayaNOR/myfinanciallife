@@ -1,0 +1,81 @@
+package com.example.myfinanciallife.dashboard.presentation;
+
+import java.util.List;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.myfinanciallife.dashboard.application.DashboardResponse;
+import com.example.myfinanciallife.dashboard.application.DashboardService;
+import com.example.myfinanciallife.dashboard.application.DebtResponse;
+import com.example.myfinanciallife.dashboard.application.ExpensesByCategoryResponse;
+import com.example.myfinanciallife.dashboard.application.InvestmentResponse;
+import com.example.myfinanciallife.dashboard.application.MonthlySummaryResponse;
+import com.example.myfinanciallife.financialrecord.domain.FinancialRecord;
+import com.example.myfinanciallife.user.domain.User;
+import com.example.myfinanciallife.user.domain.UserRepository;
+
+
+@RestController
+@RequestMapping("/dashboard")
+public class DashboardController {
+
+    private final DashboardService dashboardService;
+    private final UserRepository userRepository;
+
+    public DashboardController(DashboardService dashboardService, UserRepository userRepository) {
+        this.dashboardService = dashboardService;
+        this.userRepository = userRepository;
+    }
+
+    @GetMapping
+    public DashboardResponse getDashboard(Authentication authentication) {
+        
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return dashboardService.getDashboard(user.getId());
+    }
+
+    @GetMapping("/expenses-by-category")
+    public List<ExpensesByCategoryResponse> getExpensesByCategory(Authentication authentication) {
+        String email = authentication.getName();
+
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return dashboardService.getExpensesByCategory(user.getId());
+    }
+
+    @GetMapping("/monthly-summary")
+    public List<MonthlySummaryResponse> getMonthlySummary(Authentication authentication) {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.getMonthlySummary(user.getId());
+    }
+
+    @GetMapping("/recent-transactions")
+    public List<FinancialRecord> getRecentTransactions(Authentication authentication){
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.getRecentTransactions(user.getId());
+    }
+
+    @GetMapping("/debts")
+    public DebtResponse debtCalculator(@RequestParam Long debtId, Authentication authentication) {
+        String email = authentication.getName();
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.debtsCalculator(debtId);
+    }
+
+    @GetMapping("/investments")
+    public InvestmentResponse investmentCalculator(@RequestParam Long investmentId, Authentication authentication) {
+        String email = authentication.getName();
+        userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return dashboardService.investmentCalculator(investmentId);
+    }
+    
+}
