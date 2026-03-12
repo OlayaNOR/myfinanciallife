@@ -1,4 +1,5 @@
 const API_URL = "http://localhost:8080";
+import { apiClient } from "@/lib/apiClient";
 
 export async function login(email: string, password: string) {
 
@@ -20,4 +21,13 @@ export async function login(email: string, password: string) {
   const data = await response.json();
 
   return data;
+}
+
+export async function registerUser(data: any) {
+
+  return apiClient("/auth/register", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+
 }
