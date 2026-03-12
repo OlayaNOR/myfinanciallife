@@ -1,217 +1,112 @@
-# My Financial Life
+# Financial Life
 
-# Overview
+Financial Life is a full-stack personal finance management application designed to help users track and understand their financial activity.  
+The platform allows users to register financial records such as income, expenses, investments, and debts while providing analytical insights and financial projections.
 
-MyFinancialLife is a personal financial management backend designed to support a modern fintech-style application.
-The system provides secure authentication, financial record management, and analytical dashboard metrics that allow users to track their financial activity over time.
+The system combines a modern React-based frontend with a robust Java backend, offering secure authentication, financial calculations, and an interactive calendar to visualize financial events.
 
-The backend is built with a clean and scalable architecture that separates responsibilities across layers, making the system easier to maintain, extend, and test.
+---
 
-At its current stage, the backend already supports a fully functional MVP, including authentication, financial record management, and financial analytics endpoints that can be consumed by a frontend application.
+# Features
 
-# Current Backend Capabilities
+## User Management
+- User registration and authentication
+- Secure login using JWT tokens
+- User profile management
+- Update personal information
+- Account deletion with confirmation dialog
 
-The backend currently implements the following core modules and architectural components:
-- Authentication system
-- User management
-- Financial records CRUD
-- Dashboard analytics
-- JWT-based security
-- DTO and Mapper pattern
-- UseCase-based application logic
+---
 
-Each component is explained in detail below.
+## Financial Records Management
 
- # Authentication (Auth)
+The application allows users to manage different types of financial transactions:
 
-The authentication module is responsible for verifying user credentials and issuing secure tokens that allow access to protected resources.
+### Income
+Track all sources of income such as salaries, bonuses, or other earnings.
 
-Features
-- User login with email and password
-- Secure password storage using hashing
-- JWT token generation after successful authentication
-- Stateless authentication model
+### Expenses
+Record and categorize expenses to better understand spending habits.
 
-Authentication Flow
-1. A user sends their credentials to the login endpoint.
-2. The backend verifies the email and password.
-3. If the credentials are valid, a JWT token is generated.
-4. The token is returned to the client.
-5. The client includes the token in future requests using the Authorization header.
+### Investments
+Register investments and automatically calculate potential profit based on:
 
-Example header:
-```http
-Authorization: Bearer <jwt-token>
-```
-# Users Module
+- Investment amount
+- Profit rate
+- Investment duration (days)
 
-The Users module manages user-related operations within the application.
+The system also calculates the expected profit and final value of the investment.
 
-Responsibilities
-- User registration
-- User retrieval
-- Access to authenticated user information
+### Debts
+Track debts and automatically calculate payment information including:
 
-Typical Endpoints
+- Monthly payment amount
+- Total payment amount
+- Interest impact
+- Debt payment schedule
 
-Examples of endpoints provided by this module include:
-- User registration
-- Retrieve authenticated user information
-- Retrieve user details
+Debts with **0% interest** are also supported and calculated correctly.
 
-The module ensures that sensitive information such as passwords is never exposed in API responses.
+---
 
-# Financial Records CRUD
+## Financial Calendar
 
-The FinancialRecord module represents the core business functionality of the system.
+One of the core features of the application is the **interactive financial calendar**, which provides a visual representation of financial activity.
 
-Users can store and manage different types of financial records, such as:
-- Income
-- Expenses
-- Investments
-- Debts
+The calendar displays:
 
-Supported Operations
+- Daily balance based on income and expenses
+- Investment creation dates
+- Debt creation dates
+- Investment maturity dates
+- Scheduled debt payment events
 
-The system allows users to perform standard CRUD operations:
+Users can click any date to view all financial events for that specific day.
 
-Create
-- Add a new financial transaction
+---
 
-Read
-- Retrieve all financial records
-- Filter records by type
-- Retrieve records within a date range
+## Financial Calculations
 
-Delete
-- Remove a record by its identifier
+The backend includes financial logic to calculate:
 
-Each record contains information such as:
-- Description
-- Amount
-- Date
-- Category
-- Type of financial record
-- Associated user
+### Investment Profit
+Based on:
+- Principal amount
+- Profit rate
+- Number of days
 
-All financial records are tied to a specific authenticated user, ensuring proper data isolation.
+### Debt Payment Calculation
 
-# Dashboard Metrics
+For debts with interest:
 
-The dashboard module provides aggregated financial analytics derived from the stored financial records.
+The system calculates the monthly payment using financial formulas based on effective annual rate (EA).
 
-Instead of returning raw transactional data, this module computes useful financial insights for the user.
+For debts with **0% interest**, the system automatically distributes the principal evenly across the payment periods.
 
-Examples of metrics provided
-- Total income
-- Total expenses
-- Account balance
-- Total transactions
-- Expenses grouped by category
-- Monthly financial summaries
-- Transactions filter by date
+---
 
-These metrics allow the frontend to easily render dashboards and charts such as:
-- Financial summaries
-- Expense breakdowns
-- Monthly performance charts
-- Transaction history tables
+# Tech Stack
 
-All dashboard metrics are computed efficiently using optimized database queries.
-
-# JWT Security
-
-Security is implemented using JSON Web Tokens (JWT).
-
-JWT provides a stateless authentication mechanism that allows secure communication between the frontend and backend.
-
-Key characteristics
-- Tokens are issued after successful login
-- Tokens are required for protected endpoints
-- Each request must include the token in the Authorization header
-- The backend validates the token before processing the request
-
-Security advantages
-- No server-side session storage required
-- Scalable authentication model
-- Industry-standard security approach for REST APIs
-
-Protected endpoints cannot be accessed without a valid token.
-
-# DTO and Mapper Pattern
-
-The backend uses the DTO (Data Transfer Object) pattern to separate internal domain models from external API contracts.
-
-Why DTOs are used
-
-Directly exposing entities can lead to several issues:
-- Exposure of sensitive fields
-- Tight coupling between database models and API responses
-- Reduced flexibility when evolving the API
-
-DTOs solve these issues by providing a controlled structure for API input and output.
-
-Mapper Layer
-
-Mappers convert between:
-- Request DTOs → Commands
-- Domain entities → Response DTOs
-
-This layer ensures that transformations are handled in a consistent and maintainable way.
-
-Example responsibilities of mappers include:
-- Converting API requests into application commands
-- Formatting domain entities into API responses
-- Hiding internal implementation details
-
-# Architectural Approach
-
-The project follows a layered architecture inspired by Clean Architecture and Domain-driven design principles.
-
-Typical structure:
-```
-domain
-application
-infrastructure
-presentation
-```
-
-Each layer has a clearly defined role:
-
-Domain
-- Core entities and business rules
-
-Application
-- UseCases and application workflows
-
-Infrastructure
-- Database repositories and external integrations
-
-Presentation
-- Controllers and API endpoints
-
-This separation ensures the system remains modular and scalable.
-
-# Current Status
-
-At this stage, the backend provides a fully functional MVP API that supports:
-- Secure user authentication
-- Financial record management
-- Analytical dashboard metrics
-- JWT-protected endpoints
-- Clean architectural separation
-
-The backend is now ready to be integrated with a frontend application that will consume these APIs and present financial data to the user.
-
-# Purpose of the Project
-
-This project serves both as:
-- A learning platform for clean backend architecture
-- A portfolio project demonstrating modern backend development practices
-
-Technologies used include:
+## Backend
+- Java
 - Spring Boot
-- REST API design
-- JWT authentication
-- Relational databases
-- Clean architecture principles
+- Spring Security
+- JWT Authentication
+- REST API
+- Maven
+- JPA / Hibernate
+
+## Frontend
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui components
+- FullCalendar
+
+## Database
+- PostgreSQL
+
+---
+
+# System Architecture
