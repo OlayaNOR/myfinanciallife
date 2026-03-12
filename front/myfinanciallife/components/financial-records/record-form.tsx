@@ -14,10 +14,21 @@ export default function RecordForm({ type }: any) {
   const [profitRate, setProfitRate] = useState("")
   const [paymentPeriod, setPaymentPeriod] = useState("")
   const [days, setDays] = useState("")
+  
+  const categories = [
+    "JOB",
+    "HOUSE",
+    "HEALTH",
+    "EDUCATION",
+    "LEISURE",
+    "FAMILY",
+    "OTHER"
+  ]
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
 
+    
     const payload: any = {
       description,
       amount: Number(amount),
@@ -25,6 +36,7 @@ export default function RecordForm({ type }: any) {
       type,
       category
     }
+
 
     if (type === "INVESTMENT") {
       payload.profitRate = Number(profitRate)
@@ -83,12 +95,21 @@ export default function RecordForm({ type }: any) {
         onChange={(e) => setDate(e.target.value)}
       />
 
-      <input
-        placeholder="Category"
+      <select
         className="w-full border rounded-md px-3 py-2"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-      />
+      >
+
+        <option value="">Select category</option>
+
+        {categories.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+
+      </select>
 
       {type === "DEBT" && (
         <>
