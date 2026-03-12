@@ -1,6 +1,5 @@
 "use client"
 
-import { getLastTransactions } from "@/services/dashboardService"
 import { createFinancialRecord } from "@/services/financialRecordsService"
 import { useState } from "react"
 

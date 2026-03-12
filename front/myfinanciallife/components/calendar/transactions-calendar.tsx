@@ -16,7 +16,21 @@ import {
 export default function TransactionsCalendar({ transactions }: any) {
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
-  const balancesByDate = transactions.reduce((acc: any, t: any) => {
+
+  const balanceTransactions = transactions.filter(
+    (t: any) => t.type === "INCOME" || t.type === "EXPENSE"
+  )
+
+  const specialTransactions = transactions.filter(
+    (t: any) => t.type === "INVESTMENT" || t.type === "DEBT"
+  )
+
+  const transactionsOfDay = selectedDate
+    ? transactions.filter((t: any) => t.date.split("T")[0] === selectedDate)
+    : []
+
+  const balancesByDate = balanceTransactions.reduce((acc: any, t: any) => {
+
     const date = t.date.split("T")[0]
 
     if (!acc[date]) {
@@ -25,23 +39,28 @@ export default function TransactionsCalendar({ transactions }: any) {
 
     if (t.type === "INCOME") {
       acc[date] += t.amount
-    } else {
+    } else{
       acc[date] -= t.amount
     }
 
     return acc
 
-  }, {})
+}, {})
 
-  const transactionsOfDay = transactions.filter((t: any) => {
-    return t.date.split("T")[0] === selectedDate
-  })
-
-  const events = Object.entries(balancesByDate).map(([date, balance]: any) => ({
-    title: `${balance > 0 ? "+" : ""}$${balance.toLocaleString()}`,
+  
+  const balanceEvents = Object.entries(balancesByDate).map(([date, balance]: any) => ({
+    title: `${balance > 0 ? "+" : ""}$${balance}`,
     date,
     color: balance > 0 ? "#16a34a" : "#dc2626"
   }))
+
+  const specialEvents = specialTransactions.map((t: any) => ({
+    title: `${t.type === "INVESTMENT" ? "📈" : "💳"} ${t.description}`,
+    date: t.date.split("T")[0],
+    color: t.type === "INVESTMENT" ? "#2563eb" : "#9333ea"
+  }))
+
+  const events = [...balanceEvents, ...specialEvents]
 
   return (
     <div className="border rounded-xl p-4">
@@ -54,10 +73,10 @@ export default function TransactionsCalendar({ transactions }: any) {
           right: "dayGridMonth,timeGridWeek,timeGridDay"
         }}
         events={events}
-        height="auto"
         eventClick={(info) => {
           setSelectedDate(info.event.startStr)
         }}
+        height="auto"
       />
       <Dialog open={!!selectedDate} onOpenChange={() => setSelectedDate(null)}>
         <DialogContent>
@@ -87,10 +106,17 @@ export default function TransactionsCalendar({ transactions }: any) {
                   className={
                     t.type === "INCOME"
                       ? "text-green-600 font-semibold"
-                      : "text-red-600 font-semibold"
+                      : t.type === "EXPENSE"
+                      ? "text-red-600 font-semibold"
+                      : t.type === "INVESTMENT"
+                      ? "text-blue-600 font-semibold"
+                      : "text-purple-600 font-semibold"
                   }
                 >
-                  {t.type === "INCOME" ? "+" : "-"}${t.amount}
+                  {t.type === "INCOME" && `+$${t.amount}`}
+                  {t.type === "EXPENSE" && `-$${t.amount}`}
+                  {t.type === "INVESTMENT" && `📈 $${t.amount}`}
+                  {t.type === "DEBT" && `💳 $${t.amount}`}
                 </span>
               </div>
             ))}
