@@ -19,3 +19,10 @@ export async function getDebts() {
 export async function getInvestments() {
   return apiClient(`/financial-records/by-type?type=INVESTMENT`)
 }
+
+export async function createFinancialRecord(data: any) {
+  return apiClient("/financial-records/new", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+}
