@@ -26,3 +26,11 @@ export async function createFinancialRecord(data: any) {
     body: JSON.stringify(data)
   })
 }
+
+export async function getInvestmentDetails(id: number) {
+  return apiClient(`/dashboard/investments?investmentId=${id}`)
+}
+
+export async function getDebtDetails(id: number) {
+  return apiClient(`/dashboard/debts?debtId=${id}`)
+}

@@ -5,25 +5,35 @@ import RecordsTable from "@/components/financial-records/records-table"
 import { getDebts } from "@/services/financialRecordsService"
 import { useEffect, useState } from "react"
 
+export default function DebtsPage() {
 
-export default function IncomesPage() {
-
-  const [transactions, setTransactions] = useState([])
+  const [records, setRecords] = useState<any[]>([])
 
   async function loadData() {
-    const data = await getDebts()
-    setTransactions(data)
+    try {
+      const data = await getDebts()
+      setRecords(data)
+    } catch (error) {
+      console.error("Error loading debts:", error)
+    }
   }
 
   useEffect(() => {
     loadData()
   }, [])
+
   return (
     <div className="space-y-6">
 
-      <RecordForm type="DEBT" />
+      <RecordForm
+        type="DEBT"
+        onSuccess={loadData}
+      />
 
-      <RecordsTable records={transactions} />
+      <RecordsTable
+        records={records}
+        type="DEBT"
+      />
 
     </div>
   )
