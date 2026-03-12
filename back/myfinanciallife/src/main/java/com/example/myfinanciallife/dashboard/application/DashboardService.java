@@ -79,12 +79,32 @@ public class DashboardService {
 
         BigDecimal amount = debt.getAmount();
         double interestRate = debt.getInterestRate();
-
         int period = debt.getPaymentPeriod();
+
+        if (interestRate == 0) {
+
+                BigDecimal monthlyPayment = amount.divide(
+                        BigDecimal.valueOf(period),
+                        10,
+                        RoundingMode.HALF_UP
+                );
+
+                BigDecimal totalPayment = monthlyPayment.multiply(
+                        BigDecimal.valueOf(period)
+                );
+
+                return new DebtResponse(
+                        debt.getDescription(),
+                        amount,
+                        period,
+                        monthlyPayment,
+                        totalPayment,
+                        interestRate
+                );
+        }
 
         double annualRate = interestRate / 100.0;
 
-        // EA -> tasa mensual
         double monthlyRateDouble = Math.pow(1 + annualRate, 1.0/12) - 1;
 
         BigDecimal monthlyRate = BigDecimal.valueOf(monthlyRateDouble);
@@ -101,17 +121,15 @@ public class DashboardService {
         BigDecimal totalPayment = monthlyPayment
                 .multiply(BigDecimal.valueOf(period));
 
-        DebtResponse debtResponse = new DebtResponse(
+        return new DebtResponse(
                 debt.getDescription(),
-                debt.getAmount(),
-                debt.getPaymentPeriod(),
+                amount,
+                period,
                 monthlyPayment,
                 totalPayment,
                 interestRate
         );
-
-        return debtResponse;
-    }
+        }
 
     public InvestmentResponse investmentCalculator(Long investmentId){
 
