@@ -105,8 +105,150 @@ For debts with **0% interest**, the system automatically distributes the princip
 - FullCalendar
 
 ## Database
-- PostgreSQL
+- MySQL
 
 ---
 
 # System Architecture
+
+Frontend (Next.js / React)
+|
+| REST API
+|
+Backend (Spring Boot)
+|
+| JPA / Hibernate
+|
+Database (PostgreSQL)
+
+The backend exposes REST endpoints that handle authentication, financial record management, and financial calculations.  
+The frontend consumes these APIs to display dynamic financial data and visualizations.
+
+---
+
+# Project Structure
+
+financial-life
+│
+├── backend
+│   ├── application
+│   ├── domain
+│   ├── infrastructure
+│   ├── presentation
+│   └── security
+│
+├── frontend
+│   ├── app
+│   ├── components
+│   ├── services
+│   ├── lib
+│ 
+│
+└── README.md
+
+---
+
+# Key Components
+
+### Financial Records Module
+Handles creation and management of:
+
+- Income
+- Expenses
+- Investments
+- Debts
+
+### Calendar Module
+Displays financial activity visually and generates derived events such as:
+
+- Investment maturity
+- Debt payment schedule
+
+### Financial Calculation Engine
+Handles calculations for:
+
+- Investment profit
+- Debt amortization
+- Monthly payment amounts
+
+---
+
+# API Overview
+
+Example endpoints provided by the backend:
+
+POST /auth/login
+POST /auth/register
+
+GET /users/me
+PUT /users/update
+
+POST /financial-records
+GET /financial-records
+
+GET /investments?investmentId={id}
+GET /debts?debtId={id}
+
+These endpoints provide all data required for financial tracking and calculations.
+
+---
+
+# Security
+
+The application uses **JWT authentication** to protect all financial operations.
+
+Authentication flow:
+
+1. User logs in
+2. Backend generates a JWT token
+3. Token is stored on the client
+4. All protected requests include the token in the Authorization header
+
+These endpoints provide all data required for financial tracking and calculations.
+
+---
+
+# Security
+
+The application uses **JWT authentication** to protect all financial operations.
+
+Authentication flow:
+
+1. User logs in
+2. Backend generates a JWT token
+3. Token is stored on the client
+4. All protected requests include the token in the Authorization header
+
+Authorization: Bearer 
+
+---
+
+# Installation
+
+## Backend
+
+cd back/myfinanciallife
+mvn clean install
+mvn spring-boot:run
+
+---
+
+## Frontend
+
+cd front/myfinanciallife
+npm install
+npm run dev
+
+---
+
+# Author
+
+Developed by **Nicolas Olaya**
+
+Software Engineering student focused on build digital actives, financial software, and scalable application design.
+
+---
+
+# License
+
+This project is for educational and portfolio purposes.
