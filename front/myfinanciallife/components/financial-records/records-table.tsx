@@ -28,10 +28,12 @@ export default function RecordsTable({ records }: any) {
 
       if (record.type === "INVESTMENT") {
         data = await getInvestmentDetails(record.id)
-      }
-
-      if (record.type === "DEBT") {
+      } 
+      else if (record.type === "DEBT") {
         data = await getDebtDetails(record.id)
+      } 
+      else if (record.type === "INCOME" || record.type === "EXPENSE") {
+        data = record
       }
 
       setDetails(data)
@@ -39,7 +41,6 @@ export default function RecordsTable({ records }: any) {
     } catch (error) {
       console.error(error)
     }
-
   }
 
   return (
@@ -93,6 +94,36 @@ export default function RecordsTable({ records }: any) {
           {details ? (
 
             <div className="space-y-3 text-sm">
+
+              {selectedRecord?.type === "INCOME" || selectedRecord?.type === "EXPENSE" && details && (
+
+                <div className="space-y-3">
+
+                  <div className="flex justify-between">
+                    <span>Description</span>
+                    <span>{details.description}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Amount</span>
+                    <span className="text-green-600 font-semibold">
+                      +${details.amount}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Date</span>
+                    <span>{details.date}</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>Category</span>
+                    <span>{details.category}</span>
+                  </div>
+
+                </div>
+
+              )}
 
               {selectedRecord?.type === "DEBT" && details && (
 
