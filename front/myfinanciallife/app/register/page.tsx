@@ -10,7 +10,7 @@ export default function RegisterPage() {
 
       <div className="w-full max-w-md border rounded-xl p-6">
 
-        <h1 className="text-2xl font-semibold mb-6 text-center">
+        <h1 className="text-2xl font-semibold mb-6 text-center text-black">
           Create an account
         </h1>
 

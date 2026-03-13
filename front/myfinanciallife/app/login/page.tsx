@@ -39,7 +39,7 @@ export default function LoginPage() {
         <input
           type="email"
           placeholder="Email"
-          className="text-black w-full border p-2 mb-4 rounded"
+          className="text-black w-full border border-black p-2 mb-4 rounded "
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -47,7 +47,7 @@ export default function LoginPage() {
         <input
           type="password"
           placeholder="Password"
-          className="text-black w-full border p-2 mb-4 rounded"
+          className="text-black w-full border border-black p-2 mb-4 rounded "
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -63,7 +63,7 @@ export default function LoginPage() {
           Don't have an account?{" "}
           <a
             href="/register"
-            className="text-primary font-medium hover:underline"
+            className="text-black font-medium hover:underline"
           >
             Register here
           </a>

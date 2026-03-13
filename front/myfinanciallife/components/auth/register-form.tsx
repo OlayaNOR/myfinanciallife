@@ -50,7 +50,7 @@ export default function RegisterForm() {
       <input
         type="text"
         placeholder="Name"
-        className="w-full border rounded-md px-3 py-2"
+        className="text-black w-full border border-black p-2 mb-4 rounded "
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
@@ -59,7 +59,7 @@ export default function RegisterForm() {
       <input
         type="email"
         placeholder="Email"
-        className="w-full border rounded-md px-3 py-2"
+        className="text-black w-full border border-black p-2 mb-4 rounded "
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
@@ -68,7 +68,7 @@ export default function RegisterForm() {
       <input
         type="password"
         placeholder="Password"
-        className="w-full border rounded-md px-3 py-2"
+        className="text-black w-full border border-black p-2 mb-4 rounded "
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
@@ -77,7 +77,7 @@ export default function RegisterForm() {
       <input
         type="password"
         placeholder="Confirm you password"
-        className="w-full border rounded-md px-3 py-2"
+        className="text-black w-full border border-black p-2 mb-4 rounded "
         value={confirmation}
         onChange={(e) => setConfirmation(e.target.value)}
         required
@@ -86,7 +86,7 @@ export default function RegisterForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-black text-white rounded-md py-2"
+        className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700 cursor-pointer"
       >
         {loading ? "Creating account..." : "Register"}
       </button>
