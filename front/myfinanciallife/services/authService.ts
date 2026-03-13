@@ -1,5 +1,7 @@
-const API_URL = "http://localhost:8080";
 import { apiClient } from "@/lib/apiClient";
+
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 export async function login(email: string, password: string) {
 
