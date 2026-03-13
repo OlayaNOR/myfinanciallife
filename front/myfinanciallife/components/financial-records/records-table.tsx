@@ -82,7 +82,7 @@ export default function RecordsTable({ records }: any) {
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
 
-        <DialogContent>
+        <DialogContent aria-describedby={undefined}>
 
           <DialogHeader>
             <DialogTitle>

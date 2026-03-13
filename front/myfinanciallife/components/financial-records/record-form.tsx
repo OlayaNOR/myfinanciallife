@@ -150,7 +150,7 @@ export default function RecordForm({ type }: any) {
         </>
       )}
       <br />
-      <button className="bg-primary text-white px-4 py-2 rounded-md">
+      <button className="bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded-md">
         Create
       </button>
 
