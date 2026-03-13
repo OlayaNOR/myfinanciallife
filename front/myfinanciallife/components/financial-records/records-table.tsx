@@ -95,7 +95,7 @@ export default function RecordsTable({ records }: any) {
 
             <div className="space-y-3 text-sm">
 
-              {selectedRecord?.type === "INCOME" || selectedRecord?.type === "EXPENSE" && details && (
+              {["INCOME","EXPENSE"].includes(selectedRecord?.type) && details && (
 
                 <div className="space-y-3">
 
